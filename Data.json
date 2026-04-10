@@ -1,0 +1,76 @@
+{
+  "regions": [
+    {
+      "id": "DONG_GU",
+      "name": "동구",
+      "type": "Business",
+      "minStats": { "inf": 68, "comp": 69, "stealth": 31 },
+      "reward": 1344,
+      "isBoss": false
+    },
+    {
+      "id": "SEO_GU",
+      "name": "서구",
+      "type": "Industrial",
+      "minStats": { "inf": 60, "comp": 61, "stealth": 39 },
+      "reward": 1280,
+      "isBoss": false
+    },
+    {
+      "id": "NAM_GU",
+      "name": "남구",
+      "type": "Stealth",
+      "minStats": { "inf": 35, "comp": 32, "stealth": 68 },
+      "reward": 1080,
+      "isBoss": false
+    },
+    {
+      "id": "BUK_GU",
+      "name": "북구",
+      "type": "Residential",
+      "minStats": { "inf": 67, "comp": 60, "stealth": 40 },
+      "reward": 1336,
+      "isBoss": false
+    },
+    {
+      "id": "JUNG_GU",
+      "name": "중구",
+      "type": "Business",
+      "minStats": { "inf": 52, "comp": 65, "stealth": 35 },
+      "reward": 1216,
+      "isBoss": false
+    },
+    {
+      "id": "SUSEONG_GU",
+      "name": "수성구",
+      "type": "Residential",
+      "minStats": { "inf": 57, "comp": 50, "stealth": 50 },
+      "reward": 1264,
+      "isBoss": false
+    },
+    {
+      "id": "DALSEO_GU",
+      "name": "달서구",
+      "type": "Residential",
+      "minStats": { "inf": 80, "comp": 76, "stealth": 24 },
+      "reward": 1440,
+      "isBoss": false
+    },
+    {
+      "id": "DALSEONG_GUN1",
+      "name": "달성군1",
+      "type": "Industrial",
+      "minStats": { "inf": 57, "comp": 60, "stealth": 40 },
+      "reward": 1248,
+      "isBoss": false
+    },
+    {
+      "id": "DALSEONG_GUN2",
+      "name": "달성군2",
+      "type": "Industrial",
+      "minStats": { "inf": 58, "comp": 58, "stealth": 42 },
+      "reward": 1272,
+      "isBoss": false
+    }
+  ]
+}
