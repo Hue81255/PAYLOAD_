@@ -20,6 +20,8 @@ public class RegionData
     public DefenseStats minStats;
     public int reward;
     public bool isBoss;
+    public bool isInfected = false;
+
 }
 
 // JSON 파일 전체를 읽어오기 위한 리스트 래퍼
