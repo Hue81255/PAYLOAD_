@@ -1,2 +1,0 @@
-# PAYLOAD_
-for asset
