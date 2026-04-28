@@ -1,0 +1,76 @@
+{
+  "regions": [
+    {
+      "name": "중구",
+      "type": "업무",
+      "population": 100724,
+      "defenseMin": { "infection": 3, "complexity": 3, "stealth": 3 },
+      "rewardMultiplier": 3.0,
+      "adjacent": ["동구", "서구", "남구", "북구"]
+    },
+    {
+      "name": "동구",
+      "type": "주거",
+      "population": 330191,
+      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
+      "rewardMultiplier": 1.5,
+      "adjacent": ["중구", "북구", "수성구"]
+    },
+    {
+      "name": "서구",
+      "type": "주거",
+      "population": 179239,
+      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
+      "rewardMultiplier": 1.5,
+      "adjacent": ["중구", "북구", "달서구"]
+    },
+    {
+      "name": "남구",
+      "type": "주거",
+      "population": 145539,
+      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
+      "rewardMultiplier": 1.5,
+      "adjacent": ["중구", "수성구", "달서구"]
+    },
+    {
+      "name": "북구",
+      "type": "주거",
+      "population": 449558,
+      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
+      "rewardMultiplier": 1.5,
+      "adjacent": ["중구", "동구", "서구", "달성군"]
+    },
+    {
+      "name": "수성구",
+      "type": "고급주거",
+      "population": 432065,
+      "defenseMin": { "infection": 3, "complexity": 2, "stealth": 3 },
+      "rewardMultiplier": 2.0,
+      "adjacent": ["중구", "동구", "남구"]
+    },
+    {
+      "name": "달서구",
+      "type": "산업",
+      "population": 584146,
+      "defenseMin": { "infection": 2, "complexity": 3, "stealth": 2 },
+      "rewardMultiplier": 2.0,
+      "adjacent": ["서구", "남구", "달성군"]
+    },
+    {
+      "name": "달성군",
+      "type": "농촌",
+      "population": 261311,
+      "defenseMin": { "infection": 1, "complexity": 1, "stealth": 1 },
+      "rewardMultiplier": 1.0,
+      "adjacent": ["북구", "달서구"]
+    },
+    {
+      "name": "군위군",
+      "type": "농촌",
+      "population": 23415,
+      "defenseMin": { "infection": 1, "complexity": 1, "stealth": 1 },
+      "rewardMultiplier": 1.0,
+      "adjacent": ["북구", "동구"]
+    }
+  ]
+}
