@@ -62,4 +62,20 @@ public class PlayerStats : MonoBehaviour
         stealth = 10;
         coins = 100;
     }
+
+    public void ApplyMalware(MalwareDefinition def)
+    {
+        ResetStats();
+        inf     += def.infBonus;
+        comp    += def.compBonus;
+        stealth += def.stealthBonus;
+        coins   = Mathf.Max(0, coins + def.coinBonus);
+
+        if (InfectionEngine.Instance != null)
+        {
+            InfectionEngine.Instance.playerInf     = inf;
+            InfectionEngine.Instance.playerComp    = comp;
+            InfectionEngine.Instance.playerStealth = stealth;
+        }
+    }
 }

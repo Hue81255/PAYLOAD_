@@ -2,26 +2,18 @@ using UnityEngine;
 
 public class BackdoorManager : MonoBehaviour
 {
-    void OnEnable()
-    {
-        GlobalEventManager.OnBackdoorActive += ActivateBackdoor;
-    }
-
-    void OnDisable()
-    {
-        GlobalEventManager.OnBackdoorActive -= ActivateBackdoor;
-    }
+    void OnEnable()  => GlobalEventManager.OnBackdoorActive += ActivateBackdoor;
+    void OnDisable() => GlobalEventManager.OnBackdoorActive -= ActivateBackdoor;
 
     void ActivateBackdoor()
     {
-        Debug.Log("¹éµµ¾î ÀÛµ¿. È­ÀÌÆ®ÇØÄ¿ÀÇ ½Ã½ºÅÛÀ» ±³¶õÇÏ¿© Ä¡·á ¼Óµµ¸¦ ´ÊÃä´Ï´Ù.");
+        if (CureManager.Instance == null) return;
 
-        // ¿¹: Ä¡·á °ÔÀÌÁö¸¦ 20% ±ğ¾Æ¹ö¸®°Å³ª, Ä¡·á ¼Óµµ¸¦ ÀÏ½Ã Á¤Áö
-        WhiteHackerManager wh = FindObjectOfType<WhiteHackerManager>();
-        if (wh != null)
-        {
-            wh.cureProgress -= 20f;
-            if (wh.cureProgress < 0) wh.cureProgress = 0;
-        }
+        // APT íŒ¨ì‹œë¸Œ: ë°±ë„ì–´ íš¨ê³¼ 2ë°° (40% ê°ì†Œ)
+        float reduction = (MalwareSelectionManager.Instance != null &&
+                           MalwareSelectionManager.Instance.HasAPTPassive) ? 40f : 20f;
+
+        CureManager.Instance.cureProgress = Mathf.Max(0f, CureManager.Instance.cureProgress - reduction);
+        Debug.Log($"ë°±ë„ì–´ í™œì„±í™”: ë°œê°ë„ -{reduction}%");
     }
 }
