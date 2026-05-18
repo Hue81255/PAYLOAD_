@@ -5,35 +5,23 @@ public class WhiteHackerManager : MonoBehaviour
 {
     public static WhiteHackerManager Instance;
 
-    // AI »óÅÂ ¸Ó½Å (FSM)
-    public enum HackerState
-    {
-        Idle,       // ´ë±â Áß
-        Scanning,   // °¨¿° ±¸¿ª Å½»ö Áß
-        Curing,     // ±¸¿ª Ä¡·á Áß
-        Alert       // °æ°è »óÅÂ (¹ß°¢µµ 60% ÀÌ»ó)
-    }
+    public enum HackerState { Idle, Scanning, Curing, Alert }
 
-    [Header("ÇöÀç AI »óÅÂ")]
+    [Header("AI ìƒíƒœ")]
     public HackerState currentState = HackerState.Idle;
 
-    [Header("Ä¡·á ÁøÇàµµ")]
-    public float cureProgress = 0f;
-    public float cureSpeed = 0.5f;
-    public bool isCuring = false;
+    [Header("AI ì„¤ì •")]
+    public float scanInterval = 10f;
+    public float cureTime = 15f;
+    public int   coinPenalty = 50;
 
-    [Header("AI ¼³Á¤")]
-    public float scanInterval = 10f;   // ¸î ÃÊ¸¶´Ù °¨¿° ±¸¿ª Å½»ö
-    public float cureTime = 15f;       // ±¸¿ª ÇÏ³ª Ä¡·áÇÏ´Â µ¥ °É¸®´Â ½Ã°£
-    public int coinPenalty = 50;       // Ä¡·á ¿Ï·á ½Ã ÄÚÀÎ Æä³ÎÆ¼
-
-    [Header("»óÅÂº° Ä¡·á ¼Óµµ ¹èÀ²")]
-    public float idleMultiplier = 1f;
+    [Header("ìƒíƒœë³„ ì¹˜ë£Œ ì†ë„ ë°°ìœ¨")]
+    public float idleMultiplier  = 1f;
     public float alertMultiplier = 2f;
 
-    private float scanTimer = 0f;
-    private string targetRegion = "";
-    private float regionCureTimer = 0f;
+    private float  scanTimer       = 0f;
+    private string targetRegion    = "";
+    private float  regionCureTimer = 0f;
 
     void Awake()
     {
@@ -43,14 +31,8 @@ public class WhiteHackerManager : MonoBehaviour
 
     void Update()
     {
-        // ±âÁ¸ ·ÎÁ÷: °¨¿°µµ ÀÓ°èÁ¡ ³ÑÀ¸¸é Ä¡·á ½ÃÀÛ
-        if (EvolutionManager.Instance.infectionLevel > 2 || isCuring)
-        {
-            isCuring = true;
-            ExecuteCure();
-        }
+        if (GameManager.Instance == null || !GameManager.Instance.isGameStarted) return;
 
-        // FSM »óÅÂ ¾÷µ¥ÀÌÆ®
         UpdateState();
 
         switch (currentState)
@@ -69,42 +51,20 @@ public class WhiteHackerManager : MonoBehaviour
         }
     }
 
-    // ±âÁ¸ ÀüÃ¼ Ä¡·á ÁøÇàµµ ·ÎÁ÷ À¯Áö
-    void ExecuteCure()
-    {
-        float complexityModifier = 1.0f / (EvolutionManager.Instance.complexityLevel * 0.5f + 1);
-        cureProgress += cureSpeed * complexityModifier * Time.deltaTime;
-
-        // ¹ß°¢µµ¿Í ¿¬µ¿
-        if (CureManager.Instance != null)
-            CureManager.Instance.cureProgress = cureProgress;
-
-        if (cureProgress >= 100f)
-        {
-            Debug.Log("È­ÀÌÆ®ÇØÄ¿°¡ ¹ÙÀÌ·¯½º¸¦ ¿ÏÀüÈ÷ ¹Ú¸ê! °ÔÀÓ ¿À¹ö!");
-            GameManager.Instance.GameOver();
-        }
-
-        if (cureProgress >= 50f)
-        {
-            GlobalEventManager.CallBackdoorActive();
-        }
-    }
-
-    // FSM »óÅÂ ÀüÈ¯
     void UpdateState()
     {
-        if (isCuring && !string.IsNullOrEmpty(targetRegion))
+        float detectionProgress = CureManager.Instance != null ? CureManager.Instance.cureProgress : 0f;
+
+        if (!string.IsNullOrEmpty(targetRegion))
             currentState = HackerState.Curing;
-        else if (cureProgress >= 60f)
+        else if (detectionProgress >= 60f)
             currentState = HackerState.Alert;
-        else if (cureProgress >= 30f)
+        else if (detectionProgress >= 30f)
             currentState = HackerState.Scanning;
         else
             currentState = HackerState.Idle;
     }
 
-    // °¨¿° ±¸¿ª Å½»ö
     void HandleScanning()
     {
         scanTimer += Time.deltaTime;
@@ -115,75 +75,88 @@ public class WhiteHackerManager : MonoBehaviour
         }
     }
 
-    // °³º° ±¸¿ª Ä¡·á
     void HandleRegionCuring()
     {
         if (string.IsNullOrEmpty(targetRegion)) return;
 
-        float multiplier = (currentState == HackerState.Alert)
-            ? alertMultiplier
-            : idleMultiplier;
-
+        float multiplier = (currentState == HackerState.Alert) ? alertMultiplier : idleMultiplier;
         regionCureTimer += Time.deltaTime * multiplier;
 
-        if (regionCureTimer >= cureTime)
-        {
+        float effectiveCureTime = cureTime * (MalwareSelectionManager.Instance?.WhiteHackerCureTimeMultiplier ?? 1f);
+        if (regionCureTimer >= effectiveCureTime)
             CompleteCure();
-        }
     }
 
     void FindAndCureRegion()
     {
         if (InfectionEngine.Instance == null) return;
-
         string infected = InfectionEngine.Instance.GetRandomInfectedRegion();
         if (!string.IsNullOrEmpty(infected))
         {
-            targetRegion = infected;
+            targetRegion    = infected;
             regionCureTimer = 0f;
-            Debug.Log($"È­ÀÌÆ®ÇØÄ¿: [{targetRegion}] ±¸¿ª Ä¡·á ½ÃÀÛ!");
+            Debug.Log($"í™”ì´íŠ¸í•´ì»¤: [{targetRegion}] êµ¬ì—­ ì¹˜ë£Œ ì‹œì‘!");
         }
     }
 
     void CompleteCure()
     {
-        Debug.Log($"È­ÀÌÆ®ÇØÄ¿: [{targetRegion}] ±¸¿ª Ä¡·á ¿Ï·á!");
+        Debug.Log($"í™”ì´íŠ¸í•´ì»¤: [{targetRegion}] êµ¬ì—­ ì¹˜ë£Œ ì™„ë£Œ!");
 
-        // ±¸¿ª °¨¿° ÇØÁ¦
+        MalwareSelectionManager.Instance?.RegisterPolymorphicCuredRegion(targetRegion);
+
         if (InfectionEngine.Instance != null)
             InfectionEngine.Instance.CureRegion(targetRegion);
 
-        // ÄÚÀÎ Æä³ÎÆ¼
         if (PlayerStats.Instance != null)
-        {
             PlayerStats.Instance.AddCoins(-coinPenalty);
-            Debug.Log($"ÄÚÀÎ -{coinPenalty} Æä³ÎÆ¼!");
-        }
 
-        // GameManager¿¡ ¾Ë¸²
         if (GameManager.Instance != null)
             GameManager.Instance.OnRegionCured();
 
-        targetRegion = "";
+        targetRegion    = "";
         regionCureTimer = 0f;
     }
 
-    // UI¿ë
+    // â”€â”€ ê³µê°œ ìœ í‹¸ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
     public float GetRegionCureProgress()
     {
         if (string.IsNullOrEmpty(targetRegion)) return 0f;
-        return regionCureTimer / cureTime;
+        float effectiveCureTime = cureTime * (MalwareSelectionManager.Instance?.WhiteHackerCureTimeMultiplier ?? 1f);
+        return Mathf.Clamp01(regionCureTimer / effectiveCureTime);
     }
 
-    public string GetTargetRegion() { return targetRegion; }
+    public string GetTargetRegion() => targetRegion;
+
+    public void ResetScanTimer()        { scanTimer = 0f; }
+    public void HalveRegionCureTimer()  { regionCureTimer /= 2f; }
 
     public void ResetAI()
     {
-        currentState = HackerState.Idle;
-        isCuring = false;
-        cureProgress = 0f;
+        currentState    = HackerState.Idle;
         regionCureTimer = 0f;
-        scanTimer = 0f;
-        targetRegion = "";
+        scanTimer       = 0f;
+        targetRegion    = "";
+    }
+
+    // â”€â”€ ì„¸ì´ë¸Œ/ë¡œë“œ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    public void FillSaveData(SaveData data)
+    {
+        data.hackerState      = (int)currentState;
+        data.isCuring         = !string.IsNullOrEmpty(targetRegion);
+        data.targetRegion     = targetRegion;
+        data.regionCureTimer  = regionCureTimer;
+        data.scanTimer        = scanTimer;
+        data.hackerCureProgress = 0f; // CureManagerê°€ ê´€ë¦¬
+    }
+
+    public void ApplyLoadData(SaveData data)
+    {
+        currentState    = (HackerState)data.hackerState;
+        targetRegion    = data.targetRegion;
+        regionCureTimer = data.regionCureTimer;
+        scanTimer       = data.scanTimer;
     }
 }

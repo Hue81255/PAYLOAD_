@@ -1,60 +1,57 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class DefenseMin
-{
-    public int infection;
-    public int complexity;
-    public int stealth;
-}
-
-[System.Serializable]
-public class RegionInfo
-{
-    public string name;
-    public string type;
-    public int population;
-    public DefenseMin defenseMin;
-    public float rewardMultiplier;
-    public List<string> adjacent;
-}
-
-[System.Serializable]
-public class RegionDatabase
-{
-    public List<RegionInfo> regions;
-}
-
 public class RegionDataLoader : MonoBehaviour
 {
     public static RegionDataLoader Instance;
-    public RegionDatabase database;
+
+    public List<RegionData> regions = new List<RegionData>();
 
     void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else { Destroy(gameObject); return; }
 
         LoadData();
+    }
+
+    void Start()
+    {
+        if (InfectionEngine.Instance != null && regions.Count > 0)
+        {
+            InfectionEngine.Instance.regions = new List<RegionData>(regions);
+            Debug.Log($"[RegionDataLoader] InfectionEngine에 {regions.Count}개 구역 데이터 연결 완료");
+        }
     }
 
     void LoadData()
     {
         TextAsset json = Resources.Load<TextAsset>("Data");
-        if (json != null)
+        if (json == null)
         {
-            database = JsonUtility.FromJson<RegionDatabase>(json.text);
-            Debug.Log($"✅ 지역 데이터 로드 완료: {database.regions.Count}개 구역");
+            Debug.LogError("[RegionDataLoader] Data.json 파일을 찾을 수 없습니다!");
+            return;
+        }
+
+        var list = JsonUtility.FromJson<RegionDataList>(json.text);
+        if (list?.regions != null)
+        {
+            regions = list.regions;
+            Debug.Log($"[RegionDataLoader] {regions.Count}개 구역 로드 완료");
         }
         else
         {
-            Debug.LogError("❌ Data.json 파일을 찾을 수 없어요!");
+            Debug.LogError("[RegionDataLoader] Data.json 파싱 실패 — 구조를 확인하세요.");
         }
     }
 
-    public RegionInfo GetRegion(string name)
+    public RegionData GetRegionById(string id)
     {
-        return database.regions.Find(r => r.name == name);
+        return regions.Find(r => r.id == id);
+    }
+
+    public RegionData GetRegionByName(string name)
+    {
+        return regions.Find(r => r.name == name);
     }
 }

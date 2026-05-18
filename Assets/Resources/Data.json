@@ -1,76 +1,76 @@
 {
   "regions": [
     {
-      "name": "중구",
-      "type": "업무",
-      "population": 100724,
-      "defenseMin": { "infection": 3, "complexity": 3, "stealth": 3 },
-      "rewardMultiplier": 3.0,
-      "adjacent": ["동구", "서구", "남구", "북구"]
-    },
-    {
-      "name": "동구",
-      "type": "주거",
-      "population": 330191,
-      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
-      "rewardMultiplier": 1.5,
-      "adjacent": ["중구", "북구", "수성구"]
-    },
-    {
-      "name": "서구",
-      "type": "주거",
-      "population": 179239,
-      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
-      "rewardMultiplier": 1.5,
-      "adjacent": ["중구", "북구", "달서구"]
-    },
-    {
-      "name": "남구",
-      "type": "주거",
-      "population": 145539,
-      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
-      "rewardMultiplier": 1.5,
-      "adjacent": ["중구", "수성구", "달서구"]
-    },
-    {
-      "name": "북구",
-      "type": "주거",
-      "population": 449558,
-      "defenseMin": { "infection": 2, "complexity": 2, "stealth": 2 },
-      "rewardMultiplier": 1.5,
-      "adjacent": ["중구", "동구", "서구", "달성군"]
-    },
-    {
-      "name": "수성구",
-      "type": "고급주거",
-      "population": 432065,
-      "defenseMin": { "infection": 3, "complexity": 2, "stealth": 3 },
-      "rewardMultiplier": 2.0,
-      "adjacent": ["중구", "동구", "남구"]
-    },
-    {
-      "name": "달서구",
-      "type": "산업",
-      "population": 584146,
-      "defenseMin": { "infection": 2, "complexity": 3, "stealth": 2 },
-      "rewardMultiplier": 2.0,
-      "adjacent": ["서구", "남구", "달성군"]
-    },
-    {
-      "name": "달성군",
-      "type": "농촌",
-      "population": 261311,
-      "defenseMin": { "infection": 1, "complexity": 1, "stealth": 1 },
-      "rewardMultiplier": 1.0,
-      "adjacent": ["북구", "달서구"]
-    },
-    {
+      "id": "DALSEONG_GUN2",
       "name": "군위군",
-      "type": "농촌",
-      "population": 23415,
-      "defenseMin": { "infection": 1, "complexity": 1, "stealth": 1 },
-      "rewardMultiplier": 1.0,
-      "adjacent": ["북구", "동구"]
+      "type": "Rural",
+      "minStats": { "inf": 5, "comp": 5, "stealth": 5 },
+      "reward": 100,
+      "isBoss": false
+    },
+    {
+      "id": "DALSEONG_GUN1",
+      "name": "달성군",
+      "type": "Rural",
+      "minStats": { "inf": 10, "comp": 8, "stealth": 8 },
+      "reward": 180,
+      "isBoss": false
+    },
+    {
+      "id": "SEO_GU",
+      "name": "서구",
+      "type": "Residential",
+      "minStats": { "inf": 14, "comp": 10, "stealth": 12 },
+      "reward": 250,
+      "isBoss": false
+    },
+    {
+      "id": "DONG_GU",
+      "name": "동구",
+      "type": "Residential",
+      "minStats": { "inf": 20, "comp": 16, "stealth": 16 },
+      "reward": 340,
+      "isBoss": false
+    },
+    {
+      "id": "BUK_GU",
+      "name": "북구",
+      "type": "Residential",
+      "minStats": { "inf": 24, "comp": 22, "stealth": 18 },
+      "reward": 420,
+      "isBoss": false
+    },
+    {
+      "id": "NAM_GU",
+      "name": "남구",
+      "type": "Medical",
+      "minStats": { "inf": 26, "comp": 30, "stealth": 22 },
+      "reward": 520,
+      "isBoss": false
+    },
+    {
+      "id": "JUNG_GU",
+      "name": "중구",
+      "type": "Business",
+      "minStats": { "inf": 32, "comp": 28, "stealth": 36 },
+      "reward": 650,
+      "isBoss": false
+    },
+    {
+      "id": "SUSEONG_GU",
+      "name": "수성구",
+      "type": "Affluent",
+      "minStats": { "inf": 28, "comp": 36, "stealth": 42 },
+      "reward": 720,
+      "isBoss": false
+    },
+    {
+      "id": "DALSEO_GU",
+      "name": "달서구",
+      "type": "Industrial",
+      "minStats": { "inf": 42, "comp": 48, "stealth": 30 },
+      "reward": 900,
+      "isBoss": true
     }
   ]
 }
