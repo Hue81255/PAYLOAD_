@@ -11,9 +11,10 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     public static SaveManager Instance;
+    public static int CurrentSlot = 0;
 
-    static string SavePath =>
-        Path.Combine(Application.persistentDataPath, "payload_save.json");
+    static string SlotPath(int slot) =>
+        Path.Combine(Application.persistentDataPath, $"payload_save_{slot}.json");
 
     // ── 생명주기 ──────────────────────────────────────────────────
 
@@ -30,12 +31,15 @@ public class SaveManager : MonoBehaviour
 
     // ── 공개 API ──────────────────────────────────────────────────
 
-    public bool HasSave() => File.Exists(SavePath);
+    public bool HasSave()           => HasSave(CurrentSlot);
+    public bool HasSave(int slot)   => File.Exists(SlotPath(slot));
 
     // ─────────────────────────────────────────────────────────────
     // SAVE
     // ─────────────────────────────────────────────────────────────
-    public void Save()
+    public void Save() => Save(CurrentSlot);
+
+    public void Save(int slot)
     {
         if (GameManager.Instance == null || !GameManager.Instance.isGameStarted) return;
 
@@ -80,25 +84,27 @@ public class SaveManager : MonoBehaviour
                 data.regions.Add(new RegionSaveData { regionId = r.id, isInfected = r.isInfected });
         }
 
-        File.WriteAllText(SavePath, JsonUtility.ToJson(data, true));
-        Debug.Log($"[SaveManager] 저장 완료 ({data.savedAt})");
+        File.WriteAllText(SlotPath(slot), JsonUtility.ToJson(data, true));
+        Debug.Log($"[SaveManager] 슬롯 {slot} 저장 완료 ({data.savedAt})");
     }
 
     // ─────────────────────────────────────────────────────────────
     // LOAD
     // ─────────────────────────────────────────────────────────────
-    public bool Load()
+    public bool Load() => Load(CurrentSlot);
+
+    public bool Load(int slot)
     {
-        if (!HasSave())
+        if (!HasSave(slot))
         {
-            Debug.Log("[SaveManager] 저장 파일 없음.");
+            Debug.Log($"[SaveManager] 슬롯 {slot} 저장 파일 없음.");
             return false;
         }
 
         SaveData data;
         try
         {
-            data = JsonUtility.FromJson<SaveData>(File.ReadAllText(SavePath));
+            data = JsonUtility.FromJson<SaveData>(File.ReadAllText(SlotPath(slot)));
         }
         catch (System.Exception e)
         {
@@ -164,17 +170,20 @@ public class SaveManager : MonoBehaviour
         // ── 10. 게임 상태 전환 (리셋 없이) ──────────────────────
         GameManager.Instance?.LoadAndStartGame();
 
-        Debug.Log($"[SaveManager] 로드 완료 (저장 시각: {data.savedAt})");
+        Debug.Log($"[SaveManager] 슬롯 {slot} 로드 완료 (저장 시각: {data.savedAt})");
         return true;
     }
 
     // ─────────────────────────────────────────────────────────────
     // DELETE
     // ─────────────────────────────────────────────────────────────
-    public void DeleteSave()
+    public void DeleteSave()           => DeleteSave(CurrentSlot);
+
+    public void DeleteSave(int slot)
     {
-        if (!HasSave()) return;
-        File.Delete(SavePath);
-        Debug.Log("[SaveManager] 저장 파일 삭제.");
+        string path = SlotPath(slot);
+        if (!File.Exists(path)) return;
+        File.Delete(path);
+        Debug.Log($"[SaveManager] 슬롯 {slot} 저장 파일 삭제.");
     }
 }

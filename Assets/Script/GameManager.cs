@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,7 +32,20 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        ShowMainMenu();
+        if (mainMenuPanel) mainMenuPanel.SetActive(false);
+        if (gameOverPanel) gameOverPanel.SetActive(false);
+        if (gameClearPanel) gameClearPanel.SetActive(false);
+
+        if (GameFlowData.IsNewGame)
+        {
+            MalwareSelectionManager.Instance?.ApplyNewGame(GameFlowData.SelectedMalwareType);
+            StartGame();
+        }
+        else
+        {
+            SaveManager.CurrentSlot = GameFlowData.SelectedSlot;
+            SaveManager.Instance?.Load();
+        }
     }
 
     void Update()
@@ -63,12 +77,15 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         Time.timeScale = 0f;
 
-        SaveManager.Instance?.DeleteSave(); // 게임 오버 시 세이브 삭제
+        SaveManager.Instance?.DeleteSave();
 
-        mainMenuPanel.SetActive(false);
-        gameOverPanel.transform.parent.gameObject.SetActive(true);
-        gameOverPanel.SetActive(true);
-        Debug.Log($"💀 발각! 패널활성화: {gameOverPanel.name}");
+        if (mainMenuPanel) mainMenuPanel.SetActive(false);
+        if (gameOverPanel)
+        {
+            gameOverPanel.transform.parent.gameObject.SetActive(true);
+            gameOverPanel.SetActive(true);
+        }
+        Debug.Log($"💀 발각! 패널활성화: {gameOverPanel?.name}");
     }
 
 
@@ -80,9 +97,9 @@ public class GameManager : MonoBehaviour
         infectedRegions = 0;
         Time.timeScale = 1f;
 
-        mainMenuPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        gameClearPanel.SetActive(false);
+        if (mainMenuPanel)  mainMenuPanel.SetActive(false);
+        if (gameOverPanel)  gameOverPanel.SetActive(false);
+        if (gameClearPanel) gameClearPanel.SetActive(false);
 
         if (CureManager.Instance != null)
             CureManager.Instance.ResetCure();
@@ -107,42 +124,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        if (UIManager.Instance != null)
-            UIManager.Instance.ResetUI();
-        OnStartButtonPressed();
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("select2");
     }
 
     public void GoToMainMenu()
     {
-        isGameStarted = false;
-        isGameOver = false;
-        isGameClear = false;
-        infectedRegions = 0;
         Time.timeScale = 1f;
-
-        if (CureManager.Instance != null)
-            CureManager.Instance.ResetCure();
-        if (WhiteHackerManager.Instance != null)
-            WhiteHackerManager.Instance.ResetAI();
-
-        ShowMainMenu();
-    }
-
-    void ShowMainMenu()
-    {
-        mainMenuPanel.SetActive(true);
-        gameOverPanel.SetActive(false);
-        gameClearPanel.SetActive(false);
-
-        // 저장 파일이 있을 때만 '계속하기' 버튼 표시
-        if (continueButton != null)
-            continueButton.gameObject.SetActive(SaveManager.Instance != null && SaveManager.Instance.HasSave());
-    }
-
-    // '계속하기' 버튼 콜백 – 저장 파일을 로드하고 게임 재개
-    public void ContinueGame()
-    {
-        SaveManager.Instance?.Load();
+        SceneManager.LoadScene("StartScreen");
     }
 
     // SaveManager.Load()가 모든 상태를 복원한 뒤 마지막으로 호출
@@ -154,9 +143,9 @@ public class GameManager : MonoBehaviour
         isGameClear   = false;
         Time.timeScale = 1f;
 
-        mainMenuPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        gameClearPanel.SetActive(false);
+        if (mainMenuPanel)  mainMenuPanel.SetActive(false);
+        if (gameOverPanel)  gameOverPanel.SetActive(false);
+        if (gameClearPanel) gameClearPanel.SetActive(false);
 
         UIManager.Instance?.ResetUI();
         Debug.Log("💾 게임 재개!");
