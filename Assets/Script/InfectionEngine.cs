@@ -9,6 +9,8 @@ public class InfectionEngine : MonoBehaviour
     public int playerComp = 10;
     public int playerStealth = 10;
 
+    public HackEffect hackEffect;
+
     // ������ ���� ���
     public List<RegionData> regions = new List<RegionData>();
 
@@ -33,8 +35,8 @@ public class InfectionEngine : MonoBehaviour
         int minStat = RegionAdjacencyManager.Instance != null
             ? RegionAdjacencyManager.Instance.minEffectiveStat : 5;
 
-        bool success = playerInf     >= Mathf.Max(minStat, target.minStats.inf     - totalReduction) &&
-                       playerComp    >= Mathf.Max(minStat, target.minStats.comp    - totalReduction) &&
+        bool success = playerInf >= Mathf.Max(minStat, target.minStats.inf - totalReduction) &&
+                       playerComp >= Mathf.Max(minStat, target.minStats.comp - totalReduction) &&
                        playerStealth >= Mathf.Max(minStat, target.minStats.stealth - totalReduction);
 
         if (success)
@@ -42,6 +44,8 @@ public class InfectionEngine : MonoBehaviour
             target.isInfected = true;
             GameManager.Instance?.OnRegionInfected();
             GlobalEventManager.CallHackSuccess(target.id, target.reward);
+            if (hackEffect != null)
+                hackEffect.PlaySuccess();
             Debug.Log($"{target.name} 해킹 성공!");
         }
         else
@@ -51,11 +55,13 @@ public class InfectionEngine : MonoBehaviour
                 MalwareSelectionManager.Instance.HasZeroDayPassive &&
                 PlayerStats.Instance != null)
             {
-                if (playerInf     < target.minStats.inf)     PlayerStats.Instance.UpgradeInf(2);
-                if (playerComp    < target.minStats.comp)    PlayerStats.Instance.UpgradeComp(2);
+                if (playerInf < target.minStats.inf) PlayerStats.Instance.UpgradeInf(2);
+                if (playerComp < target.minStats.comp) PlayerStats.Instance.UpgradeComp(2);
                 if (playerStealth < target.minStats.stealth) PlayerStats.Instance.UpgradeStealth(2);
                 UIManager.Instance?.ShowWarning($"[제로데이] 취약점 학습: 스탯 자동 강화 +2");
             }
+            if (hackEffect != null)
+                hackEffect.PlayFail();
             Debug.Log($"{target.name} 방어가 너무 강합니다.");
         }
     }
