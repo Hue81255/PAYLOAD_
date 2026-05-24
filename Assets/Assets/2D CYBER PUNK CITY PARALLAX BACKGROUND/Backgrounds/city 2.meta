@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Assets/2D CYBER PUNK CITY PARALLAX BACKGROUND/Backgrounds/city 2.meta
 guid: a31edc1f26aab644d94b29cac6c78de2
+========
+guid: eca1f7c0de2e91d4ea98a5b2621410ad
+>>>>>>>> 4ee1922651a751f6ea703a3820338a5bf32bf71c:Assets/Assets/2D CYBER PUNK CITY PARALLAX BACKGROUND/Backgrounds/city 1.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
