@@ -20,6 +20,11 @@ public class InfectionEngine : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     public void AttemptHack(RegionData target)
     {
         if (target == null || target.isInfected) return;

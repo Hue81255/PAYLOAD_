@@ -24,6 +24,11 @@ public class SaveManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void OnEnable()  => GlobalEventManager.OnHackSuccess += OnHackSuccess;
     void OnDisable() => GlobalEventManager.OnHackSuccess -= OnHackSuccess;
 

@@ -115,6 +115,13 @@ namespace TraitTree
             }
         }
 
+        void Start()
+        {
+            // OnEnable은 Awake와 같은 프레임에 호출되므로 PlayerStats가 아직 null일 수 있음.
+            // Start에서 한 번 더 갱신하면 모든 Awake 완료 후 슬라이더가 정확한 값을 반영한다.
+            RefreshSliderActuals();
+        }
+
         void LateUpdate()
         {
             if (!needsLineLayout || connectors.Count == 0) return;

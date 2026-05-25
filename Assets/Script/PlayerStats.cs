@@ -18,6 +18,11 @@ public class PlayerStats : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     // 코인 추가/차감
     public void AddCoins(int amount)
     {

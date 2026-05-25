@@ -15,6 +15,11 @@ public class RegionDataLoader : MonoBehaviour
         LoadData();
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void Start()
     {
         if (InfectionEngine.Instance != null && regions.Count > 0)

@@ -123,11 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< Updated upstream
---- !u!1 &71944
-=======
 --- !u!1 &21251382
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,39 +131,20 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 71945}
-  m_Layer: 0
-  m_Name: SpreadManager
-=======
   - component: {fileID: 21251383}
   m_Layer: 0
   m_Name: City
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!4 &71945
-=======
 --- !u!4 &21251383
->>>>>>> Stashed changes
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 71944}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-=======
   m_GameObject: {fileID: 21251382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -190,7 +167,6 @@ Transform:
   - {fileID: 1801950608}
   - {fileID: 1196031254}
   - {fileID: 1487779444}
->>>>>>> Stashed changes
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &77430770
@@ -1782,27 +1758,6 @@ MonoBehaviour:
   infectedRegions: 0
   gameOverPanel: {fileID: 1842735093}
   gameClearPanel: {fileID: 712549191}
-<<<<<<< Updated upstream
-  continueButton: {fileID: 1359089105}
---- !u!114 &309613473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 309613471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3f1598e9fddfaa49986300066d28a52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInf: 10
-  playerComp: 10
-  playerStealth: 10
-  hackEffect: {fileID: 0}
-  regions: []
-=======
->>>>>>> Stashed changes
 --- !u!4 &309613474
 Transform:
   m_ObjectHideFlags: 0
@@ -2846,11 +2801,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467901158}
   m_CullTransparentMesh: 1
-<<<<<<< Updated upstream
---- !u!1 &469066922
-=======
 --- !u!1 &490677419
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2858,26 +2809,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 469066924}
-  - component: {fileID: 469066923}
-  m_Layer: 0
-  m_Name: MalwareSelectionManager
-=======
   - component: {fileID: 490677420}
   - component: {fileID: 490677422}
   - component: {fileID: 490677421}
   m_Layer: 5
   m_Name: SelectSignText
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!114 &469066923
-=======
 --- !u!224 &490677420
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2898,30 +2839,11 @@ RectTransform:
   m_SizeDelta: {x: 403.77, y: 109.6986}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &490677421
->>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 469066922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b099638e2c43e7a42976de75b1c762dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectionPanel: {fileID: 0}
-  cards: []
-  confirmButton: {fileID: 0}
-  selectedNameText: {fileID: 0}
-  selectedDescText: {fileID: 0}
-  selectedPassiveText: {fileID: 0}
-  selectedAbilityText: {fileID: 0}
-  selectedStatsText: {fileID: 0}
---- !u!4 &469066924
-Transform:
-=======
   m_GameObject: {fileID: 490677419}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -3007,25 +2929,12 @@ Transform:
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &490677422
 CanvasRenderer:
->>>>>>> Stashed changes
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 469066922}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-=======
   m_GameObject: {fileID: 490677419}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &500802866
 GameObject:
   m_ObjectHideFlags: 0
@@ -3520,11 +3429,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520556789}
   m_CullTransparentMesh: 1
-<<<<<<< Updated upstream
---- !u!1 &558447153
-=======
 --- !u!1 &559832082
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3532,66 +3437,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 558447155}
-  - component: {fileID: 558447154}
-  m_Layer: 0
-  m_Name: PlayerStats
-=======
   - component: {fileID: 559832083}
   - component: {fileID: 559832084}
   m_Layer: 0
   m_Name: MalwareselectionManager
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!114 &558447154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 558447153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86ac4805018ac2f44a25b9d31d9a5e29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inf: 10
-  comp: 10
-  stealth: 10
-  coins: 100
---- !u!4 &558447155
-=======
 --- !u!4 &559832083
->>>>>>> Stashed changes
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 558447153}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-=======
   m_GameObject: {fileID: 559832082}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1144.2172, y: 780.1964, z: -2.8158584}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!114 &559832084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3612,7 +3481,6 @@ MonoBehaviour:
   selectedPassiveText: {fileID: 0}
   selectedAbilityText: {fileID: 0}
   selectedStatsText: {fileID: 0}
->>>>>>> Stashed changes
 --- !u!1 &561313283
 GameObject:
   m_ObjectHideFlags: 0
@@ -5586,11 +5454,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893931658}
   m_CullTransparentMesh: 1
-<<<<<<< Updated upstream
---- !u!1 &922376207
-=======
 --- !u!1 &900662707
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5598,64 +5462,30 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 922376209}
-  - component: {fileID: 922376208}
-  m_Layer: 0
-  m_Name: RegionAdjacencyManager
-=======
   - component: {fileID: 900662708}
   - component: {fileID: 900662709}
   m_Layer: 0
   m_Name: UIManager
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!114 &922376208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922376207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca75e9ed8310bcf49979190c6e1f0dc3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reductionPerNeighbor: 15
-  minEffectiveStat: 5
---- !u!4 &922376209
-=======
 --- !u!4 &900662708
->>>>>>> Stashed changes
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 922376207}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-=======
   m_GameObject: {fileID: 900662707}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1144.2172, y: 780.1964, z: -2.8158584}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!114 &900662709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5813,7 +5643,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903029055}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &946817374
 GameObject:
   m_ObjectHideFlags: 0
@@ -5986,15 +5815,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-<<<<<<< Updated upstream
-      - m_Target: {fileID: 309613471}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-=======
       - m_Target: {fileID: 309613472}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: GoToProcess
@@ -6002,7 +5822,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
->>>>>>> Stashed changes
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -8571,9 +8390,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0f2dae7649adcd4aaffb2ca0dc731a4, type: 3}
-<<<<<<< Updated upstream
---- !u!1 &1345328313
-=======
 --- !u!4 &1303288287 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3122613465877809965, guid: f0f2dae7649adcd4aaffb2ca0dc731a4,
@@ -8581,7 +8397,6 @@ Transform:
   m_PrefabInstance: {fileID: 1303288286}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1331679110
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8589,13 +8404,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 1345328315}
-  - component: {fileID: 1345328314}
-=======
   - component: {fileID: 1331679111}
   - component: {fileID: 1331679112}
->>>>>>> Stashed changes
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -8603,46 +8413,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!114 &1345328314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1345328313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b76f519378b2e8345b6069c5762b1735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1345328315
-=======
 --- !u!4 &1331679111
->>>>>>> Stashed changes
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 1345328313}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-=======
   m_GameObject: {fileID: 1331679110}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1144.2172, y: 780.1964, z: -2.8158584}
->>>>>>> Stashed changes
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
-=======
 --- !u!114 &1331679112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8789,7 +8574,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349529868}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &1359089103
 GameObject:
   m_ObjectHideFlags: 0
@@ -10800,11 +10584,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< Updated upstream
---- !u!1 &1613016827
-=======
 --- !u!1 &1595630727
->>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10812,26 +10592,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< Updated upstream
-  - component: {fileID: 1613016829}
-  - component: {fileID: 1613016828}
-  m_Layer: 0
-  m_Name: RegionDataLoader
-=======
   - component: {fileID: 1595630728}
   - component: {fileID: 1595630730}
   - component: {fileID: 1595630729}
   m_Layer: 5
   m_Name: SelectSignImage
->>>>>>> Stashed changes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< Updated upstream
---- !u!114 &1613016828
-=======
 --- !u!224 &1595630728
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10853,23 +10623,11 @@ RectTransform:
   m_SizeDelta: {x: 380.9862, y: 119.9778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1595630729
->>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 1613016827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f63343914659f741956262043ab5562, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  regions: []
---- !u!4 &1613016829
-Transform:
-=======
   m_GameObject: {fileID: 1595630727}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -10896,25 +10654,12 @@ Transform:
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1595630730
 CanvasRenderer:
->>>>>>> Stashed changes
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
-  m_GameObject: {fileID: 1613016827}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-=======
   m_GameObject: {fileID: 1595630727}
   m_CullTransparentMesh: 1
->>>>>>> Stashed changes
 --- !u!1 &1615902983
 GameObject:
   m_ObjectHideFlags: 0
@@ -14761,12 +14506,6 @@ SceneRoots:
   - {fileID: 1999343163}
   - {fileID: 2040897215}
   - {fileID: 438261216}
-  - {fileID: 558447155}
   - {fileID: 1692341033}
-  - {fileID: 71945}
   - {fileID: 811727772}
-  - {fileID: 1613016829}
-  - {fileID: 922376209}
-  - {fileID: 469066924}
-  - {fileID: 1345328315}
   - {fileID: 621699285}

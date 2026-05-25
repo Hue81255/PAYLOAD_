@@ -17,6 +17,11 @@ namespace TraitTree
             else Destroy(gameObject);
         }
 
+        void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
+        }
+
         public bool IsUnlocked(TraitNode n) => n != null && unlocked.Contains(n);
 
         public bool IsAvailable(TraitNode n)

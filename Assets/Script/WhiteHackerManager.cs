@@ -29,6 +29,11 @@ public class WhiteHackerManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void Update()
     {
         if (GameManager.Instance == null || !GameManager.Instance.isGameStarted) return;

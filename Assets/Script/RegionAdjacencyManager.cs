@@ -39,6 +39,11 @@ public class RegionAdjacencyManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void OnEnable()  => GlobalEventManager.OnHackSuccess += OnRegionInfected;
     void OnDisable() => GlobalEventManager.OnHackSuccess -= OnRegionInfected;
 

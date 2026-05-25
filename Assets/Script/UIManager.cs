@@ -24,23 +24,14 @@ public class UIManager : MonoBehaviour
     public Slider whiteHackerSlider;
     public Text   whiteHackerTargetText;
 
-<<<<<<< Updated upstream
     [Header("감염 현황 UI")]
-    public Text infectedCountText;  // "감염 구역: 3 / 9"
-    public Text spreadTimerText;    // "다음 전파: 7초"
+    public Text infectedCountText;
+    public Text spreadTimerText;
 
-    [Header("경고 팝업 UI")]
-    public GameObject warningPanel;   // 경고 전체 패널
-    public Text       warningText;    // 경고 메시지 텍스트
-    public Image      warningBg;      // (선택) 배경 이미지 – 단계별 색상 변경
-    [Tooltip("경고 하나가 화면에 유지되는 시간(초)")]
-    public float warningDuration = 5f;
-=======
     [Header("알림 텍스트 (TMP — 하나만 연결)")]
     public TMP_Text notifyText;
     [Tooltip("알림이 화면에 유지되는 시간(초)")]
     public float warningDuration = 4f;
->>>>>>> Stashed changes
 
     private Coroutine _clearCoroutine;
 
@@ -50,6 +41,11 @@ public class UIManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void Start()
     {
         if (notifyText == null)
@@ -57,8 +53,8 @@ public class UIManager : MonoBehaviour
             Debug.LogWarning("[UIManager] notifyText가 연결되지 않았습니다.");
             return;
         }
-        notifyText.text  = "";
-        notifyText.color = Color.white;
+        notifyText.text    = "";
+        notifyText.color   = Color.white;
         notifyText.fontSize = 24;
         notifyText.gameObject.SetActive(true);
     }
@@ -75,7 +71,6 @@ public class UIManager : MonoBehaviour
             UpdateWhiteHackerUI();
             UpdateInfectionUI();
         }
-
     }
 
     // ── 알림 표시 ─────────────────────────────────────────────────
@@ -130,8 +125,8 @@ public class UIManager : MonoBehaviour
     void UpdateStatUI()
     {
         if (PlayerStats.Instance == null) return;
-        if (infText    != null) infText.text    = $"전염도: {PlayerStats.Instance.inf}";
-        if (compText   != null) compText.text   = $"복잡도: {PlayerStats.Instance.comp}";
+        if (infText     != null) infText.text     = $"전염도: {PlayerStats.Instance.inf}";
+        if (compText    != null) compText.text    = $"복잡도: {PlayerStats.Instance.comp}";
         if (stealthText != null) stealthText.text = $"은신도: {PlayerStats.Instance.stealth}";
     }
 
@@ -168,9 +163,9 @@ public class UIManager : MonoBehaviour
     public void ResetUI()
     {
         if (_clearCoroutine != null) { StopCoroutine(_clearCoroutine); _clearCoroutine = null; }
-        if (notifyText   != null) notifyText.text    = "";
-        if (cureSlider   != null) cureSlider.value   = 0f;
-        if (cureText     != null) cureText.text       = "발각도 0%";
-        if (coinText     != null) coinText.text        = "💰 100";
+        if (notifyText  != null) notifyText.text   = "";
+        if (cureSlider  != null) cureSlider.value  = 0f;
+        if (cureText    != null) cureText.text      = "발각도 0%";
+        if (coinText    != null) coinText.text       = "💰 100";
     }
 }

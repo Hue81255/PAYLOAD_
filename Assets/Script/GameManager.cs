@@ -7,15 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("게임 상태")]
-<<<<<<< Updated upstream
     public bool isGameStarted = false;
     public bool isGameOver    = false;
     public bool isGameClear   = false;
-=======
-    public bool isGameStarted  = false;
-    public bool isGameOver     = false;
-    public bool isGameClear    = false;
->>>>>>> Stashed changes
 
     [Header("구역 설정")]
     public int totalRegions    = 9;
@@ -29,6 +23,11 @@ public class GameManager : MonoBehaviour
     {
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     void Start()
@@ -47,8 +46,6 @@ public class GameManager : MonoBehaviour
 
         if (GameFlowData.IsNewGame)
         {
-<<<<<<< Updated upstream
-            // select씬에서 바이러스 선택 후 최초 진입
             GameFlowData.IsNewGame = false;
             MalwareSelectionManager.Instance?.ApplyNewGame(GameFlowData.SelectedMalwareType);
             StartGame();
@@ -67,29 +64,6 @@ public class GameManager : MonoBehaviour
                 // 저장 파일 없으면 select씬으로 이동
                 GameFlowData.IsNewGame = true;
                 SceneManager.LoadScene("select");
-=======
-            // select 씬에서 바이러스 선택 후 처음 진입
-            GameFlowData.IsNewGame = false;
-            StartGame();
-            MalwareSelectionManager.Instance?.ApplyNewGame(GameFlowData.SelectedMalwareType);
-
-            // 중구를 시작 지역으로 자동 감염
-            RegionData start = RegionDataLoader.Instance?.GetRegionById("JUNG_GU");
-            if (start != null)
-                ConfirmStartInfection(start);
-            else
-                SpreadManager.Instance?.StartSpread();
-        }
-        else
-        {
-            // Process 씬에서 업그레이드 후 복귀 → 저장 데이터 복원
-            bool loaded = SaveManager.Instance != null && SaveManager.Instance.Load();
-            if (!loaded)
-            {
-                // 로드 실패 시 새 게임으로 폴백
-                StartGame();
-                SpreadManager.Instance?.StartSpread();
->>>>>>> Stashed changes
             }
         }
     }
@@ -108,13 +82,9 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         Time.timeScale = 0f;
 
-<<<<<<< Updated upstream
         SaveManager.Instance?.DeleteSave();
 
         if (gameClearPanel != null)
-=======
-        if (gameClearPanel)
->>>>>>> Stashed changes
         {
             gameClearPanel.transform.parent.gameObject.SetActive(true);
             gameClearPanel.SetActive(true);
@@ -129,34 +99,21 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         Time.timeScale = 0f;
 
-<<<<<<< Updated upstream
         SaveManager.Instance?.DeleteSave();
 
         if (gameOverPanel != null)
-=======
-        if (gameOverPanel)
->>>>>>> Stashed changes
         {
             gameOverPanel.transform.parent.gameObject.SetActive(true);
             gameOverPanel.SetActive(true);
         }
-<<<<<<< Updated upstream
-=======
         Debug.Log("게임 오버!");
->>>>>>> Stashed changes
     }
 
     public void StartGame()
     {
-<<<<<<< Updated upstream
         isGameStarted   = true;
         isGameOver      = false;
         isGameClear     = false;
-=======
-        isGameStarted  = true;
-        isGameOver     = false;
-        isGameClear    = false;
->>>>>>> Stashed changes
         infectedRegions = 0;
         Time.timeScale  = 1f;
 
@@ -179,7 +136,17 @@ public class GameManager : MonoBehaviour
         GlobalEventManager.CallHackSuccess(region.id, region.reward);
         UIManager.Instance?.ShowWarning($"{region.name} 지역에서 바이러스 전파 시작!");
         SpreadManager.Instance?.StartSpread();
-<<<<<<< Updated upstream
+    }
+
+    public void OnRegionInfected()
+    {
+        infectedRegions++;
+        CureManager.Instance?.OnRegionInfected();
+    }
+
+    public void OnRegionCured()
+    {
+        infectedRegions = Mathf.Max(0, infectedRegions - 1);
     }
 
     // 업그레이드 버튼 → Process씬 (이동 전 저장)
@@ -221,44 +188,5 @@ public class GameManager : MonoBehaviour
 
         UIManager.Instance?.ResetUI();
         SpreadManager.Instance?.StartSpread();
-=======
->>>>>>> Stashed changes
-    }
-
-    public void OnRegionInfected()
-    {
-        infectedRegions++;
-        CureManager.Instance?.OnRegionInfected();
-    }
-
-    public void OnRegionCured()
-    {
-        infectedRegions = Mathf.Max(0, infectedRegions - 1);
-    }
-
-    // 업그레이드 버튼 → Process 씬 (진입 전 저장)
-    public void GoToProcess()
-    {
-        SaveManager.Instance?.Save();
-        Time.timeScale = 0f;
-        SceneManager.LoadScene("Process");
-    }
-
-    // 다시하기 → select 씬
-    public void RestartGame()
-    {
-        SaveManager.Instance?.DeleteSave();
-        GameFlowData.IsNewGame = true;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("select");
-    }
-
-    // 메인 메뉴로
-    public void GoToMainMenu()
-    {
-        SaveManager.Instance?.DeleteSave();
-        GameFlowData.IsNewGame = true;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("StartScreen");
     }
 }
