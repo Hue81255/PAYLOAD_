@@ -9496,7 +9496,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1776830048}
         m_TargetAssemblyTypeName: ProcessSceneManager, Assembly-CSharp
         m_MethodName: BackToGame
         m_Mode: 1

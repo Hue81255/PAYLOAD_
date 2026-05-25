@@ -79,5 +79,31 @@ namespace TraitTree
             OnTreeChanged?.Invoke();
             return true;
         }
+
+        public List<string> GetUnlockedNames()
+        {
+            var names = new List<string>();
+            foreach (var n in unlocked)
+                if (n != null) names.Add(n.name);
+            return names;
+        }
+
+        // 씬 로드 후 저장된 이름 목록으로 언락 상태를 복원한다.
+        // TraitNodeUI 컴포넌트를 씬에서 탐색해 이름으로 ScriptableObject를 역추적한다.
+        public void RestoreFromNames(List<string> names)
+        {
+            unlocked.Clear();
+            if (names == null || names.Count == 0) return;
+
+            var nodeMap = new Dictionary<string, TraitNode>();
+            foreach (var ui in UnityEngine.Object.FindObjectsOfType<TraitNodeUI>())
+                if (ui.node != null) nodeMap[ui.node.name] = ui.node;
+
+            foreach (var n in names)
+                if (nodeMap.TryGetValue(n, out var node))
+                    unlocked.Add(node);
+
+            OnTreeChanged?.Invoke();
+        }
     }
 }

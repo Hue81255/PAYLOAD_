@@ -52,4 +52,7 @@ public class SaveData
 
     // 구역 감염 상태
     public List<RegionSaveData> regions;
+
+    // TraitTree 언락 노드 (ScriptableObject .name 목록)
+    public List<string> unlockedTraitNodes = new List<string>();
 }
