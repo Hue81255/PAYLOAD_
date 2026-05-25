@@ -53,13 +53,16 @@ public class WhiteHackerManager : MonoBehaviour
 
     void UpdateState()
     {
-        float detectionProgress = CureManager.Instance != null ? CureManager.Instance.cureProgress : 0f;
+        float infectionRate   = GameManager.Instance != null
+            ? (float)GameManager.Instance.infectedRegions / GameManager.Instance.totalRegions : 0f;
+        float defenseProgress = CureManager.Instance != null ? CureManager.Instance.cureProgress : 0f;
 
+        // 감염률 60% 이상 → 스캐닝 시작, 방어 진행도 60% 이상 → 경보(Alert, 속도 2배)
         if (!string.IsNullOrEmpty(targetRegion))
             currentState = HackerState.Curing;
-        else if (detectionProgress >= 60f)
+        else if (defenseProgress >= 60f)
             currentState = HackerState.Alert;
-        else if (detectionProgress >= 30f)
+        else if (infectionRate >= 0.60f)
             currentState = HackerState.Scanning;
         else
             currentState = HackerState.Idle;
@@ -95,13 +98,12 @@ public class WhiteHackerManager : MonoBehaviour
         {
             targetRegion    = infected;
             regionCureTimer = 0f;
-            Debug.Log($"화이트해커: [{targetRegion}] 구역 치료 시작!");
+            UIManager.Instance?.ShowWarning($"화이트해커가 [{targetRegion}] 구역을 복구 중입니다!");
         }
     }
 
     void CompleteCure()
     {
-        Debug.Log($"화이트해커: [{targetRegion}] 구역 치료 완료!");
 
         MalwareSelectionManager.Instance?.RegisterPolymorphicCuredRegion(targetRegion);
 
@@ -113,6 +115,8 @@ public class WhiteHackerManager : MonoBehaviour
 
         if (GameManager.Instance != null)
             GameManager.Instance.OnRegionCured();
+
+        UIManager.Instance?.ShowWarning($"[{targetRegion}] 구역이 복구되었습니다! 코인 -{coinPenalty}");
 
         targetRegion    = "";
         regionCureTimer = 0f;

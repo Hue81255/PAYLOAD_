@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     public Slider whiteHackerSlider;
     public Text   whiteHackerTargetText;
 
+<<<<<<< Updated upstream
     [Header("감염 현황 UI")]
     public Text infectedCountText;  // "감염 구역: 3 / 9"
     public Text spreadTimerText;    // "다음 전파: 7초"
@@ -34,17 +35,14 @@ public class UIManager : MonoBehaviour
     public Image      warningBg;      // (선택) 배경 이미지 – 단계별 색상 변경
     [Tooltip("경고 하나가 화면에 유지되는 시간(초)")]
     public float warningDuration = 5f;
+=======
+    [Header("알림 텍스트 (TMP — 하나만 연결)")]
+    public TMP_Text notifyText;
+    [Tooltip("알림이 화면에 유지되는 시간(초)")]
+    public float warningDuration = 4f;
+>>>>>>> Stashed changes
 
-    // ── 경고 큐 상태 ─────────────────────────────────────────────
-    private readonly Queue<string> warningQueue = new Queue<string>();
-    private bool  isShowingWarning = false;
-    private float warningTimer     = 0f;
-
-    // 단계별 배경 색상
-    private static readonly Color ColorInfo    = new Color(0.15f, 0.55f, 1f,  0.92f); // 파랑
-    private static readonly Color ColorCaution = new Color(1f,    0.75f, 0f,  0.92f); // 노랑
-    private static readonly Color ColorDanger  = new Color(1f,    0.35f, 0f,  0.92f); // 주황
-    private static readonly Color ColorCritical= new Color(0.85f, 0.05f, 0.05f,0.92f);// 빨강
+    private Coroutine _clearCoroutine;
 
     void Awake()
     {
@@ -54,14 +52,15 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // Inspector 연결 누락 조기 감지
-        if (warningPanel == null)
-            Debug.LogError("[UIManager] warningPanel이 연결되지 않았습니다. Inspector에서 경고 팝업 패널을 연결하세요.");
-        if (warningText == null)
-            Debug.LogError("[UIManager] warningText가 연결되지 않았습니다. Inspector에서 경고 텍스트를 연결하세요.");
-
-        if (warningPanel != null)
-            warningPanel.SetActive(false);
+        if (notifyText == null)
+        {
+            Debug.LogWarning("[UIManager] notifyText가 연결되지 않았습니다.");
+            return;
+        }
+        notifyText.text  = "";
+        notifyText.color = Color.white;
+        notifyText.fontSize = 24;
+        notifyText.gameObject.SetActive(true);
     }
 
     void Update()
@@ -77,77 +76,26 @@ public class UIManager : MonoBehaviour
             UpdateInfectionUI();
         }
 
-        // 경고 큐는 게임 상태와 무관하게 항상 처리 (게임 오버 화면에서도 마지막 경고 표시)
-        UpdateWarningQueue();
     }
 
-    // ── 경고 큐 처리 ─────────────────────────────────────────────
+    // ── 알림 표시 ─────────────────────────────────────────────────
 
-    void UpdateWarningQueue()
-    {
-        if (warningPanel == null) return;
-
-        if (isShowingWarning)
-        {
-            warningTimer -= Time.unscaledDeltaTime;
-            if (warningTimer <= 0f)
-            {
-                isShowingWarning = false;
-                warningPanel.SetActive(false);
-                TryShowNextWarning();
-            }
-        }
-        else
-        {
-            TryShowNextWarning();
-        }
-    }
-
-    void TryShowNextWarning()
-    {
-        if (warningQueue.Count == 0) return;
-        DisplayWarning(warningQueue.Dequeue());
-    }
-
-    void DisplayWarning(string message)
-    {
-        if (warningPanel == null || warningText == null) return;
-
-        warningText.text = message;
-
-        // 메시지 내용으로 위험도 색상 자동 결정
-        if (warningBg != null)
-            warningBg.color = GetWarningColor(message);
-
-        warningPanel.SetActive(true);
-        warningTimer     = warningDuration;
-        isShowingWarning = true;
-    }
-
-    Color GetWarningColor(string message)
-    {
-        if (message.Contains("🚨") || message.Contains("포렌식") || message.Contains("위험"))
-            return ColorCritical;
-        if (message.Contains("방화벽") || message.Contains("차단"))
-            return ColorDanger;
-        if (message.Contains("⚠️") || message.Contains("백신"))
-            return ColorCaution;
-        return ColorInfo;
-    }
-
-    // ── 외부 호출 진입점 ─────────────────────────────────────────
-
-    /// <summary>
-    /// 경고 메시지를 큐에 추가한다. 현재 경고가 표시 중이면 끝난 후 순서대로 표시된다.
-    /// </summary>
     public void ShowWarning(string message)
     {
-        if (warningPanel == null || warningText == null)
-        {
-            Debug.LogError($"[UIManager] warningPanel 또는 warningText가 null입니다. Inspector 연결을 확인하세요.\n메시지: {message}");
-            return;
-        }
-        warningQueue.Enqueue(message);
+        if (notifyText == null) { Debug.Log($"[알림] {message}"); return; }
+
+        if (_clearCoroutine != null) StopCoroutine(_clearCoroutine);
+        notifyText.gameObject.SetActive(true);
+        notifyText.text  = message;
+        notifyText.color = Color.white;
+        _clearCoroutine  = StartCoroutine(ClearAfterDelay());
+    }
+
+    IEnumerator ClearAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(warningDuration);
+        if (notifyText != null) notifyText.text = "";
+        _clearCoroutine = null;
     }
 
     // ── HUD 업데이트 ─────────────────────────────────────────────
@@ -219,13 +167,10 @@ public class UIManager : MonoBehaviour
 
     public void ResetUI()
     {
-        warningQueue.Clear();
-        isShowingWarning = false;
-        warningTimer     = 0f;
-
-        if (warningPanel != null) warningPanel.SetActive(false);
-        if (cureSlider   != null) cureSlider.value  = 0f;
-        if (cureText     != null) cureText.text      = "발각도 0%";
-        if (coinText     != null) coinText.text       = "💰 100";
+        if (_clearCoroutine != null) { StopCoroutine(_clearCoroutine); _clearCoroutine = null; }
+        if (notifyText   != null) notifyText.text    = "";
+        if (cureSlider   != null) cureSlider.value   = 0f;
+        if (cureText     != null) cureText.text       = "발각도 0%";
+        if (coinText     != null) coinText.text        = "💰 100";
     }
 }

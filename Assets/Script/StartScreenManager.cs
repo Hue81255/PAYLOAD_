@@ -5,6 +5,6 @@ public class StartScreenManager : MonoBehaviour
 {
     public void OnPlayButtonPressed()
     {
-        SceneManager.LoadScene("select2");
+        SceneManager.LoadScene("select");
     }
 }

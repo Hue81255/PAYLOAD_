@@ -49,16 +49,8 @@ public class SaveSlotUI : MonoBehaviour
     void OnSelect(int slot)
     {
         GameFlowData.SelectedSlot = slot;
-        if (HasSave(slot))
-        {
-            GameFlowData.IsNewGame = false;
-            SceneManager.LoadScene("main");
-        }
-        else
-        {
-            GameFlowData.IsNewGame = true;
-            SceneManager.LoadScene("select");
-        }
+        GameFlowData.IsNewGame    = !HasSave(slot);
+        SceneManager.LoadScene("New main");
     }
 
     void OnDelete(int slot)

@@ -14,6 +14,6 @@ public class BackdoorManager : MonoBehaviour
                            MalwareSelectionManager.Instance.HasAPTPassive) ? 40f : 20f;
 
         CureManager.Instance.cureProgress = Mathf.Max(0f, CureManager.Instance.cureProgress - reduction);
-        Debug.Log($"백도어 활성화: 발각도 -{reduction}%");
+        UIManager.Instance?.ShowWarning($"[백도어] 발각도 -{reduction}% 감소!");
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2071408814399762696}
-  - component: {fileID: 7169538553227246904}
+  - component: {fileID: 4073102199565805212}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7169538553227246904
+--- !u!114 &4073102199565805212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2156964198798205728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd50a8ccf9566247a8a29e15214e9cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 01d83ced03c6d22418ef678c76fa69bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   coinText: {fileID: 0}
+  cureSlider: {fileID: 0}
+  cureText: {fileID: 0}
+  cureBarFill: {fileID: 0}
+  infText: {fileID: 0}
+  compText: {fileID: 0}
+  stealthText: {fileID: 0}
+  whiteHackerSlider: {fileID: 0}
+  whiteHackerTargetText: {fileID: 0}
+  notifyText: {fileID: 0}
+  warningDuration: 4

@@ -46,7 +46,6 @@ public class InfectionEngine : MonoBehaviour
             GlobalEventManager.CallHackSuccess(target.id, target.reward);
             if (hackEffect != null)
                 hackEffect.PlaySuccess();
-            Debug.Log($"{target.name} 해킹 성공!");
         }
         else
         {
@@ -60,9 +59,12 @@ public class InfectionEngine : MonoBehaviour
                 if (playerStealth < target.minStats.stealth) PlayerStats.Instance.UpgradeStealth(2);
                 UIManager.Instance?.ShowWarning($"[제로데이] 취약점 학습: 스탯 자동 강화 +2");
             }
+            else
+            {
+                UIManager.Instance?.ShowWarning($"{target.name} — 방어가 너무 강합니다!");
+            }
             if (hackEffect != null)
                 hackEffect.PlayFail();
-            Debug.Log($"{target.name} 방어가 너무 강합니다.");
         }
     }
 

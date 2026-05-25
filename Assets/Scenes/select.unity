@@ -1263,7 +1263,7 @@ GameObject:
   - component: {fileID: 440569655}
   - component: {fileID: 440569656}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: VirusSelectManger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1293,22 +1293,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 440569653}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f54b5f5e29f046b40817e4149dcb560d, type: 3}
+  m_Script: {fileID: 11500000, guid: d729f9f1169c56a4384cef48eda8e18c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  selectedNameText: {fileID: 461437922}
-  selectedDescText: {fileID: 138419888}
-  selectedPassiveText: {fileID: 83423053}
-  selectedAbilityText: {fileID: 677430024}
-  selectedStatsText: {fileID: 117846149}
-  confirmButton: {fileID: 0}
+  slots:
+  - button: {fileID: 151567314}
+    cardUI: {fileID: 0}
+  - button: {fileID: 1480709398}
+    cardUI: {fileID: 0}
+  - button: {fileID: 647397771}
+    cardUI: {fileID: 0}
+  - button: {fileID: 843862955}
+    cardUI: {fileID: 0}
+  - button: {fileID: 1478445681}
+    cardUI: {fileID: 0}
+  - button: {fileID: 1806578450}
+    cardUI: {fileID: 0}
+  selectedNameText: {fileID: 0}
+  selectedDescText: {fileID: 0}
+  selectedPassiveText: {fileID: 0}
+  selectedAbilityText: {fileID: 0}
+  selectedStatsText: {fileID: 0}
+  confirmButton: {fileID: 1804393912}
 --- !u!1 &461437920
 GameObject:
   m_ObjectHideFlags: 0

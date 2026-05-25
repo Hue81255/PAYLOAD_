@@ -170,8 +170,16 @@ public class SaveManager : MonoBehaviour
         // ── 9. 악성코드 패시브 복원 (UI 패널 없이 재개) ──────────
         MalwareSelectionManager.Instance?.RestoreFromSave(data.malwareType);
 
-        // ── 10. 게임 상태 전환 (리셋 없이) ──────────────────────
-        GameManager.Instance?.LoadAndStartGame();
+        // ── 10. 게임 상태 전환 ───────────────────────────────────
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.isGameStarted = true;
+            GameManager.Instance.isGameOver    = false;
+            GameManager.Instance.isGameClear   = false;
+            Time.timeScale = 1f;
+            UIManager.Instance?.ResetUI();
+            SpreadManager.Instance?.StartSpread();
+        }
 
         Debug.Log($"[SaveManager] 슬롯 {slot} 로드 완료 (저장 시각: {data.savedAt})");
         return true;
