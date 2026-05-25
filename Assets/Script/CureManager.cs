@@ -57,8 +57,6 @@ public class CureManager : MonoBehaviour
 
             // 3초 후 발각도 진행 시작
             Invoke(nameof(StartCure), 3f);
-
-            Debug.Log("⚠️ 감염률 35% 돌파! 3초 후 발각도 시작!");
         }
 
         // ── 발각도 진행 (cureStarted = true 일 때만) ──
@@ -91,16 +89,15 @@ public class CureManager : MonoBehaviour
         if (cureProgress >= 100f && !gameOverCalled)
         {
             gameOverCalled = true;
-            Debug.Log("발각도 100%! GameOver 호출!");
-            GameManager.Instance.GameOver();
+            UIManager.Instance?.ShowWarning("발각도 100% — 바이러스 완전 차단! 게임 오버...");
+            GameManager.Instance?.GameOver();
         }
     }
 
-    // 3초 후 호출되는 함수
     void StartCure()
     {
         cureStarted = true;
-        Debug.Log("🚨 발각도 상승 시작!");
+        UIManager.Instance?.ShowWarning("🚨 보안 당국 추적 시작! 발각도가 상승합니다.");
     }
 
     void TriggerPhaseEvents()
@@ -108,33 +105,18 @@ public class CureManager : MonoBehaviour
         if (!phase1Triggered && cureProgress >= 30f)
         {
             phase1Triggered = true;
-            Debug.Log("⚠️ [발각도 30%] 백신 프로토타입 개발 시작!");
-            if (UIManager.Instance != null)
-                UIManager.Instance.ShowWarning(
-                    "⚠️ 발각도 30% — 백신 프로토타입 개발 시작!\n더 많은 구역을 빠르게 감염시키세요.");
-            else
-                Debug.LogError("[CureManager] UIManager.Instance가 null입니다. 경고 팝업을 표시할 수 없습니다.");
+            UIManager.Instance?.ShowWarning("⚠️ 발각도 30% — 백신 프로토타입 개발 시작!\n더 많은 구역을 빠르게 감염시키세요.");
         }
         if (!phase2Triggered && cureProgress >= 60f)
         {
             phase2Triggered = true;
-            Debug.Log("⚠️ [발각도 60%] 방화벽 구축 시작!");
-            if (UIManager.Instance != null)
-                UIManager.Instance.ShowWarning(
-                    "⚠️ 발각도 60% — 방화벽 구축 시작!\n일부 구역 접근이 차단됩니다.");
-            else
-                Debug.LogError("[CureManager] UIManager.Instance가 null입니다. 경고 팝업을 표시할 수 없습니다.");
+            UIManager.Instance?.ShowWarning("⚠️ 발각도 60% — 방화벽 구축 시작!\n일부 구역 접근이 차단됩니다.");
         }
         if (!phase3Triggered && cureProgress >= 90f)
         {
             phase3Triggered = true;
             stealth -= 10f;
-            Debug.Log("🚨 [발각도 90%] 포렌식 감시 시작! 은신도 -10");
-            if (UIManager.Instance != null)
-                UIManager.Instance.ShowWarning(
-                    "🚨 발각도 90% — 포렌식 감시 시작!\n은신도 -10. 거의 발각 직전입니다!");
-            else
-                Debug.LogError("[CureManager] UIManager.Instance가 null입니다. 경고 팝업을 표시할 수 없습니다.");
+            UIManager.Instance?.ShowWarning("🚨 발각도 90% — 포렌식 감시 시작!\n은신도 -10. 거의 발각 직전입니다!");
         }
     }
 

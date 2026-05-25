@@ -18,18 +18,19 @@ public class RegionAdjacencyManager : MonoBehaviour
     // ─────────────────────────────────────────────────────────────
     // 대구광역시 실제 지리 기반 인접 관계 (양방향)
     // ─────────────────────────────────────────────────────────────
+    // Data.json의 ID와 정확히 일치해야 함
     private static readonly Dictionary<string, List<string>> Adjacency =
         new Dictionary<string, List<string>>
         {
-            { "JUNG_GU",       new List<string> { "DONG_GU", "SEO_GU", "NAM_GU", "BUK_GU", "SUSEONG_GU" } },
-            { "DONG_GU",       new List<string> { "JUNG_GU", "BUK_GU", "SUSEONG_GU" } },
-            { "SEO_GU",        new List<string> { "JUNG_GU", "BUK_GU", "DALSEO_GU" } },
-            { "NAM_GU",        new List<string> { "JUNG_GU", "SUSEONG_GU", "DALSEO_GU" } },
-            { "BUK_GU",        new List<string> { "JUNG_GU", "DONG_GU", "SEO_GU", "DALSEONG_GUN1" } },
-            { "SUSEONG_GU",    new List<string> { "JUNG_GU", "DONG_GU", "NAM_GU" } },
-            { "DALSEO_GU",     new List<string> { "SEO_GU", "NAM_GU", "DALSEONG_GUN1", "DALSEONG_GUN2" } },
-            { "DALSEONG_GUN1", new List<string> { "BUK_GU", "DALSEO_GU", "DALSEONG_GUN2" } },
-            { "DALSEONG_GUN2", new List<string> { "DALSEO_GU", "DALSEONG_GUN1" } },
+            { "JUNG_GU",      new List<string> { "DONG_GU", "SEO_GU", "NAM_GU", "BUK_GU", "SUSEONG_GU" } },
+            { "DONG_GU",      new List<string> { "JUNG_GU", "BUK_GU", "SUSEONG_GU" } },
+            { "SEO_GU",       new List<string> { "JUNG_GU", "BUK_GU", "DALSEO_GU" } },
+            { "NAM_GU",       new List<string> { "JUNG_GU", "SUSEONG_GU", "DALSEO_GU" } },
+            { "BUK_GU",       new List<string> { "JUNG_GU", "DONG_GU", "SEO_GU", "DALSEONG_GUN", "GUNWI_GUN" } },
+            { "SUSEONG_GU",   new List<string> { "JUNG_GU", "DONG_GU", "NAM_GU" } },
+            { "DALSEO_GU",    new List<string> { "SEO_GU", "NAM_GU", "DALSEONG_GUN" } },
+            { "DALSEONG_GUN", new List<string> { "BUK_GU", "DALSEO_GU" } },
+            { "GUNWI_GUN",    new List<string> { "BUK_GU" } },
         };
 
     void Awake()

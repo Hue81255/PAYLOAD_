@@ -1,5 +1,5 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -8,21 +8,16 @@ public class GameManager : MonoBehaviour
 
     [Header("게임 상태")]
     public bool isGameStarted = false;
-    public bool isGameOver = false;
-    public bool isGameClear = false;
+    public bool isGameOver    = false;
+    public bool isGameClear   = false;
 
     [Header("구역 설정")]
-    public int totalRegions = 9;
+    public int totalRegions    = 9;
     public int infectedRegions = 0;
 
     [Header("UI 패널 연결")]
-    public GameObject mainMenuPanel;
     public GameObject gameOverPanel;
     public GameObject gameClearPanel;
-
-    [Header("메인 메뉴 버튼")]
-    [Tooltip("저장 파일이 있을 때만 활성화되는 '계속하기' 버튼")]
-    public UnityEngine.UI.Button continueButton;
 
     void Awake()
     {
@@ -32,19 +27,40 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        if (mainMenuPanel) mainMenuPanel.SetActive(false);
-        if (gameOverPanel) gameOverPanel.SetActive(false);
+        if (gameOverPanel)  gameOverPanel.SetActive(false);
         if (gameClearPanel) gameClearPanel.SetActive(false);
+
+        // 한 프레임 대기: RegionDataLoader.Start()가 InfectionEngine.regions를
+        // 채운 뒤 실행해야 감염 상태 복원 / 첫 감염이 정상 동작함
+        StartCoroutine(InitGame());
+    }
+
+    IEnumerator InitGame()
+    {
+        yield return null; // 모든 Start() 완료 대기
 
         if (GameFlowData.IsNewGame)
         {
+            // select씬에서 바이러스 선택 후 최초 진입
+            GameFlowData.IsNewGame = false;
             MalwareSelectionManager.Instance?.ApplyNewGame(GameFlowData.SelectedMalwareType);
             StartGame();
+
+            // 중구를 시작 지역으로 자동 감염 후 전파 시작
+            RegionData start = RegionDataLoader.Instance?.GetRegionById("JUNG_GU");
+            if (start != null) ConfirmStartInfection(start);
+            else SpreadManager.Instance?.StartSpread();
         }
         else
         {
+            // Process씬 업그레이드 후 복귀 → 저장 파일로 상태 복원
             SaveManager.CurrentSlot = GameFlowData.SelectedSlot;
-            SaveManager.Instance?.Load();
+            if (SaveManager.Instance == null || !SaveManager.Instance.Load())
+            {
+                // 저장 파일 없으면 select씬으로 이동
+                GameFlowData.IsNewGame = true;
+                SceneManager.LoadScene("select");
+            }
         }
     }
 
@@ -56,17 +72,18 @@ public class GameManager : MonoBehaviour
 
     void CheckGameClear()
     {
-        if (infectedRegions >= totalRegions)
+        if (infectedRegions < totalRegions) return;
+
+        isGameClear   = true;
+        isGameStarted = false;
+        Time.timeScale = 0f;
+
+        SaveManager.Instance?.DeleteSave();
+
+        if (gameClearPanel != null)
         {
-            isGameClear   = true;
-            isGameStarted = false;
-            Time.timeScale = 0f;
-
-            SaveManager.Instance?.DeleteSave(); // 클리어 시 세이브 삭제
-
             gameClearPanel.transform.parent.gameObject.SetActive(true);
             gameClearPanel.SetActive(true);
-            Debug.Log("🎉 게임 클리어!");
         }
     }
 
@@ -79,63 +96,69 @@ public class GameManager : MonoBehaviour
 
         SaveManager.Instance?.DeleteSave();
 
-        if (mainMenuPanel) mainMenuPanel.SetActive(false);
-        if (gameOverPanel)
+        if (gameOverPanel != null)
         {
             gameOverPanel.transform.parent.gameObject.SetActive(true);
             gameOverPanel.SetActive(true);
         }
-        Debug.Log($"💀 발각! 패널활성화: {gameOverPanel?.name}");
     }
-
 
     public void StartGame()
     {
-        isGameStarted = true;
-        isGameOver = false;
-        isGameClear = false;
+        isGameStarted   = true;
+        isGameOver      = false;
+        isGameClear     = false;
         infectedRegions = 0;
-        Time.timeScale = 1f;
+        Time.timeScale  = 1f;
 
-        if (mainMenuPanel)  mainMenuPanel.SetActive(false);
         if (gameOverPanel)  gameOverPanel.SetActive(false);
         if (gameClearPanel) gameClearPanel.SetActive(false);
 
-        if (CureManager.Instance != null)
-            CureManager.Instance.ResetCure();
-        if (WhiteHackerManager.Instance != null)
-            WhiteHackerManager.Instance.ResetAI();
-        if (RegionAdjacencyManager.Instance != null)
-            RegionAdjacencyManager.Instance.ResetAll();
-        if (EvolutionManager.Instance != null)
-            EvolutionManager.Instance.ResetLevels();
-
-        Debug.Log("🎮 게임 시작!");
+        CureManager.Instance?.ResetCure();
+        WhiteHackerManager.Instance?.ResetAI();
+        RegionAdjacencyManager.Instance?.ResetAll();
+        EvolutionManager.Instance?.ResetLevels();
+        SpreadManager.Instance?.StopSpread();
     }
 
-    // UI 버튼(시작 / 다시하기)이 호출하는 진입점 – 악성코드 선택 패널을 먼저 표시
-    public void OnStartButtonPressed()
+    // 첫 지역 감염 + 자동 전파 시작
+    public void ConfirmStartInfection(RegionData region)
     {
-        if (MalwareSelectionManager.Instance != null)
-            MalwareSelectionManager.Instance.ShowSelectionPanel();
-        else
-            StartGame();
+        if (region == null) return;
+        region.isInfected = true;
+        OnRegionInfected();
+        GlobalEventManager.CallHackSuccess(region.id, region.reward);
+        UIManager.Instance?.ShowWarning($"{region.name} 지역에서 바이러스 전파 시작!");
+        SpreadManager.Instance?.StartSpread();
     }
 
+    // 업그레이드 버튼 → Process씬 (이동 전 저장)
+    public void GoToProcess()
+    {
+        SaveManager.Instance?.Save();
+        Time.timeScale = 0f;
+        SceneManager.LoadScene("Process");
+    }
+
+    // 다시하기 → select씬
     public void RestartGame()
     {
+        SaveManager.Instance?.DeleteSave();
+        GameFlowData.IsNewGame = true;
         Time.timeScale = 1f;
-        SceneManager.LoadScene("select2");
+        SceneManager.LoadScene("select");
     }
 
+    // 메인 메뉴로
     public void GoToMainMenu()
     {
+        SaveManager.Instance?.DeleteSave();
+        GameFlowData.IsNewGame = true;
         Time.timeScale = 1f;
         SceneManager.LoadScene("StartScreen");
     }
 
-    // SaveManager.Load()가 모든 상태를 복원한 뒤 마지막으로 호출
-    // StartGame()과 달리 매니저를 리셋하지 않는다
+    // SaveManager.Load() 복원 완료 후 호출 (리셋 없이 게임 재개)
     public void LoadAndStartGame()
     {
         isGameStarted = true;
@@ -143,19 +166,17 @@ public class GameManager : MonoBehaviour
         isGameClear   = false;
         Time.timeScale = 1f;
 
-        if (mainMenuPanel)  mainMenuPanel.SetActive(false);
         if (gameOverPanel)  gameOverPanel.SetActive(false);
         if (gameClearPanel) gameClearPanel.SetActive(false);
 
         UIManager.Instance?.ResetUI();
-        Debug.Log("💾 게임 재개!");
+        SpreadManager.Instance?.StartSpread();
     }
 
     public void OnRegionInfected()
     {
         infectedRegions++;
-        if (CureManager.Instance != null)
-            CureManager.Instance.OnRegionInfected();
+        CureManager.Instance?.OnRegionInfected();
     }
 
     public void OnRegionCured()

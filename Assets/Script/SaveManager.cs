@@ -27,7 +27,12 @@ public class SaveManager : MonoBehaviour
     void OnEnable()  => GlobalEventManager.OnHackSuccess += OnHackSuccess;
     void OnDisable() => GlobalEventManager.OnHackSuccess -= OnHackSuccess;
 
-    void OnHackSuccess(string _, int __) => Save();
+    // 자동 저장: 게임이 실제로 진행 중일 때만
+    void OnHackSuccess(string _, int __)
+    {
+        if (GameManager.Instance != null && GameManager.Instance.isGameStarted)
+            Save();
+    }
 
     // ── 공개 API ──────────────────────────────────────────────────
 
@@ -41,8 +46,6 @@ public class SaveManager : MonoBehaviour
 
     public void Save(int slot)
     {
-        if (GameManager.Instance == null || !GameManager.Instance.isGameStarted) return;
-
         var data = new SaveData();
         data.savedAt = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -67,8 +70,8 @@ public class SaveManager : MonoBehaviour
             data.stealthLevel = EvolutionManager.Instance.stealthLevel;
         }
 
-        // GameManager
-        data.infectedRegions = GameManager.Instance.infectedRegions;
+        // GameManager (Process씬에서는 null일 수 있음)
+        data.infectedRegions = GameManager.Instance != null ? GameManager.Instance.infectedRegions : 0;
 
         // CureManager
         CureManager.Instance?.FillSaveData(data);

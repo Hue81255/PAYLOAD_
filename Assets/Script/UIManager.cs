@@ -24,6 +24,10 @@ public class UIManager : MonoBehaviour
     public Slider whiteHackerSlider;
     public Text   whiteHackerTargetText;
 
+    [Header("감염 현황 UI")]
+    public Text infectedCountText;  // "감염 구역: 3 / 9"
+    public Text spreadTimerText;    // "다음 전파: 7초"
+
     [Header("경고 팝업 UI")]
     public GameObject warningPanel;   // 경고 전체 패널
     public Text       warningText;    // 경고 메시지 텍스트
@@ -70,6 +74,7 @@ public class UIManager : MonoBehaviour
             UpdateCoinUI();
             UpdateStatUI();
             UpdateWhiteHackerUI();
+            UpdateInfectionUI();
         }
 
         // 경고 큐는 게임 상태와 무관하게 항상 처리 (게임 오버 화면에서도 마지막 경고 표시)
@@ -180,6 +185,18 @@ public class UIManager : MonoBehaviour
         if (infText    != null) infText.text    = $"전염도: {PlayerStats.Instance.inf}";
         if (compText   != null) compText.text   = $"복잡도: {PlayerStats.Instance.comp}";
         if (stealthText != null) stealthText.text = $"은신도: {PlayerStats.Instance.stealth}";
+    }
+
+    void UpdateInfectionUI()
+    {
+        if (infectedCountText != null && GameManager.Instance != null)
+            infectedCountText.text = $"감염 구역: {GameManager.Instance.infectedRegions} / {GameManager.Instance.totalRegions}";
+
+        if (spreadTimerText != null && SpreadManager.Instance != null)
+        {
+            float t = SpreadManager.Instance.NextSpreadIn;
+            spreadTimerText.text = $"다음 전파: {Mathf.CeilToInt(t)}초";
+        }
     }
 
     void UpdateWhiteHackerUI()

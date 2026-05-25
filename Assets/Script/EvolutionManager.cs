@@ -5,7 +5,6 @@ public class EvolutionManager : MonoBehaviour
 {
     public static EvolutionManager Instance;
 
-    // ── 업그레이드 설정 ──────────────────────────────────────────
     [Header("업그레이드 설정")]
     public int maxLevel = 10;
 
@@ -23,32 +22,34 @@ public class EvolutionManager : MonoBehaviour
     [Tooltip("은신도 업그레이드 1회당 스탯 증가량")]
     public int stealthStatGain = 5;
 
-    // ── 현재 업그레이드 레벨 (Inspector 확인용) ──────────────────
     [Header("현재 레벨 (읽기 전용)")]
     public int infLevel = 1;
     public int compLevel = 1;
     public int stealthLevel = 1;
 
     // ── 업그레이드 UI – 전염도 ───────────────────────────────────
-    [Header("UI – 전염도 업그레이드")]
-    public Button  infUpgradeButton;
-    public Text    infLevelText;   // 예: "Lv. 3 / 10"
-    public Text    infCostText;    // 예: "150 코인"
-    public Text    infStatText;    // 예: "전염도: 34"
+    [Header("UI – 전염도")]
+    public Button infUpgradeButton;
+    public Button infDowngradeButton;
+    public Text   infLevelText;
+    public Text   infCostText;
+    public Text   infStatText;
 
     // ── 업그레이드 UI – 복잡도 ───────────────────────────────────
-    [Header("UI – 복잡도 업그레이드")]
-    public Button  compUpgradeButton;
-    public Text    compLevelText;
-    public Text    compCostText;
-    public Text    compStatText;
+    [Header("UI – 복잡도")]
+    public Button compUpgradeButton;
+    public Button compDowngradeButton;
+    public Text   compLevelText;
+    public Text   compCostText;
+    public Text   compStatText;
 
     // ── 업그레이드 UI – 은신도 ───────────────────────────────────
-    [Header("UI – 은신도 업그레이드")]
-    public Button  stealthUpgradeButton;
-    public Text    stealthLevelText;
-    public Text    stealthCostText;
-    public Text    stealthStatText;
+    [Header("UI – 은신도")]
+    public Button stealthUpgradeButton;
+    public Button stealthDowngradeButton;
+    public Text   stealthLevelText;
+    public Text   stealthCostText;
+    public Text   stealthStatText;
 
     // ─────────────────────────────────────────────────────────────
 
@@ -63,25 +64,24 @@ public class EvolutionManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance == null || !GameManager.Instance.isGameStarted) return;
-        RefreshUpgradeUI();
+        // New main 씬: 게임 진행 중 HUD 갱신
+        // Process 씬: GameManager 없으므로 항상 갱신
+        if (GameManager.Instance == null || GameManager.Instance.isGameStarted)
+            RefreshUpgradeUI();
     }
 
-    // ── 해킹 보상 → PlayerStats.coins에 직접 적립 ────────────────
     void OnHackSuccess(string id, int reward)
     {
         if (PlayerStats.Instance != null)
             PlayerStats.Instance.AddCoins(reward);
     }
 
-    // ── 업그레이드 버튼 콜백 ─────────────────────────────────────
+    // ── 업그레이드 ────────────────────────────────────────────────
 
     public void UpgradeInf()
     {
         if (!CanUpgrade(infLevel, infBaseCost)) return;
-
-        int cost = GetCost(infLevel, infBaseCost);
-        PlayerStats.Instance.AddCoins(-cost);
+        PlayerStats.Instance.AddCoins(-GetCost(infLevel, infBaseCost));
         PlayerStats.Instance.UpgradeInf(infStatGain);
         infLevel++;
         RefreshUpgradeUI();
@@ -91,9 +91,7 @@ public class EvolutionManager : MonoBehaviour
     public void UpgradeComp()
     {
         if (!CanUpgrade(compLevel, compBaseCost)) return;
-
-        int cost = GetCost(compLevel, compBaseCost);
-        PlayerStats.Instance.AddCoins(-cost);
+        PlayerStats.Instance.AddCoins(-GetCost(compLevel, compBaseCost));
         PlayerStats.Instance.UpgradeComp(compStatGain);
         compLevel++;
         RefreshUpgradeUI();
@@ -103,29 +101,58 @@ public class EvolutionManager : MonoBehaviour
     public void UpgradeStealth()
     {
         if (!CanUpgrade(stealthLevel, stealthBaseCost)) return;
-
-        int cost = GetCost(stealthLevel, stealthBaseCost);
-        PlayerStats.Instance.AddCoins(-cost);
+        PlayerStats.Instance.AddCoins(-GetCost(stealthLevel, stealthBaseCost));
         PlayerStats.Instance.UpgradeStealth(stealthStatGain);
         stealthLevel++;
         RefreshUpgradeUI();
         SaveManager.Instance?.Save();
     }
 
+    // ── 다운그레이드 (취소 / 환불) ───────────────────────────────
+
+    public void DowngradeInf()
+    {
+        if (infLevel <= 1 || PlayerStats.Instance == null) return;
+        // 이전 업그레이드 비용 전액 환불: GetCost(level-1, base) = base*(level-1)
+        PlayerStats.Instance.AddCoins(GetCost(infLevel - 1, infBaseCost));
+        PlayerStats.Instance.UpgradeInf(-infStatGain);
+        infLevel--;
+        RefreshUpgradeUI();
+        SaveManager.Instance?.Save();
+    }
+
+    public void DowngradeComp()
+    {
+        if (compLevel <= 1 || PlayerStats.Instance == null) return;
+        PlayerStats.Instance.AddCoins(GetCost(compLevel - 1, compBaseCost));
+        PlayerStats.Instance.UpgradeComp(-compStatGain);
+        compLevel--;
+        RefreshUpgradeUI();
+        SaveManager.Instance?.Save();
+    }
+
+    public void DowngradeStealth()
+    {
+        if (stealthLevel <= 1 || PlayerStats.Instance == null) return;
+        PlayerStats.Instance.AddCoins(GetCost(stealthLevel - 1, stealthBaseCost));
+        PlayerStats.Instance.UpgradeStealth(-stealthStatGain);
+        stealthLevel--;
+        RefreshUpgradeUI();
+        SaveManager.Instance?.Save();
+    }
+
     // ── 게임 재시작 시 레벨 초기화 ───────────────────────────────
+
     public void ResetLevels()
     {
-        infLevel    = 1;
-        compLevel   = 1;
+        infLevel     = 1;
+        compLevel    = 1;
         stealthLevel = 1;
         RefreshUpgradeUI();
     }
 
     // ─────────────────────────────────────────────────────────────
-    // 내부 유틸
-    // ─────────────────────────────────────────────────────────────
 
-    // 현재 레벨에서 다음 레벨까지의 비용: baseCost × currentLevel
     int GetCost(int currentLevel, int baseCost) => baseCost * currentLevel;
 
     bool CanUpgrade(int currentLevel, int baseCost)
@@ -138,35 +165,45 @@ public class EvolutionManager : MonoBehaviour
     void RefreshUpgradeUI()
     {
         if (PlayerStats.Instance == null) return;
-        int coins = PlayerStats.Instance.coins;
 
-        UpdateStatUI(infUpgradeButton,    infLevelText,    infCostText,    infStatText,
-                     infLevel,    infBaseCost,    PlayerStats.Instance.inf,    "전염도");
+        UpdateStatUI(infUpgradeButton,    infDowngradeButton,    infLevelText,    infCostText,    infStatText,
+                     infLevel,    infBaseCost,    infStatGain,    PlayerStats.Instance.inf,    "전염도");
 
-        UpdateStatUI(compUpgradeButton,   compLevelText,   compCostText,   compStatText,
-                     compLevel,   compBaseCost,   PlayerStats.Instance.comp,   "복잡도");
+        UpdateStatUI(compUpgradeButton,   compDowngradeButton,   compLevelText,   compCostText,   compStatText,
+                     compLevel,   compBaseCost,   compStatGain,   PlayerStats.Instance.comp,   "복잡도");
 
-        UpdateStatUI(stealthUpgradeButton, stealthLevelText, stealthCostText, stealthStatText,
-                     stealthLevel, stealthBaseCost, PlayerStats.Instance.stealth, "은신도");
+        UpdateStatUI(stealthUpgradeButton, stealthDowngradeButton, stealthLevelText, stealthCostText, stealthStatText,
+                     stealthLevel, stealthBaseCost, stealthStatGain, PlayerStats.Instance.stealth, "은신도");
     }
 
-    void UpdateStatUI(Button btn, Text levelTxt, Text costTxt, Text statTxt,
-                      int level, int baseCost, int statValue, string statName)
+    void UpdateStatUI(Button upgradeBtn, Button downgradeBtn,
+                      Text levelTxt, Text costTxt, Text statTxt,
+                      int level, int baseCost, int statGain, int statValue, string statName)
     {
-        bool maxed = level >= maxLevel;
-        int  cost  = GetCost(level, baseCost);
+        bool maxed  = level >= maxLevel;
+        bool minned = level <= 1;
+        int  upgradeCost   = GetCost(level, baseCost);
+        int  downgradeCost = GetCost(level - 1, baseCost); // 환불 금액
         int  coins = PlayerStats.Instance != null ? PlayerStats.Instance.coins : 0;
 
         if (levelTxt != null)
-            levelTxt.text = maxed ? $"Lv. MAX" : $"Lv. {level} / {maxLevel}";
+            levelTxt.text = maxed ? "Lv. MAX" : $"Lv. {level} / {maxLevel}";
 
         if (costTxt != null)
-            costTxt.text = maxed ? "최대 레벨" : $"{cost} 코인";
+        {
+            if (maxed)
+                costTxt.text = $"최대 레벨 | 환불 {downgradeCost}코인";
+            else
+                costTxt.text = $"업그레이드 {upgradeCost}코인 | 환불 {downgradeCost}코인";
+        }
 
         if (statTxt != null)
-            statTxt.text = $"{statName}: {statValue}";
+            statTxt.text = $"{statName}: {statValue} (+{statGain}/레벨)";
 
-        if (btn != null)
-            btn.interactable = !maxed && coins >= cost;
+        if (upgradeBtn != null)
+            upgradeBtn.interactable = !maxed && coins >= upgradeCost;
+
+        if (downgradeBtn != null)
+            downgradeBtn.interactable = !minned;
     }
 }

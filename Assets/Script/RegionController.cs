@@ -13,10 +13,16 @@ public class RegionController : MonoBehaviour
     [Header("약화 표시 UI (선택)")]
     [Tooltip("구역 오브젝트 위에 표시할 약화 텍스트. 없으면 무시됩니다.")]
     public Text weakenedLabel;
-    [Tooltip("약화 상태일 때 적용할 구역 색상")]
-    public Color weakenedColor = new Color(1f, 0.45f, 0f); // 주황색
-    private Color originalColor;
+
+    [Header("구역 색상")]
+    [Tooltip("감염됐을 때 색상 (기본: 빨간색)")]
+    public Color infectedColor  = new Color(0.9f, 0.15f, 0.1f);
+    [Tooltip("방어력 약화 시 색상 (기본: 주황색)")]
+    public Color weakenedColor  = new Color(1f, 0.45f, 0f);
+
+    private Color    originalColor;
     private Renderer regionRenderer;
+    private bool     _lastInfectedState = false;
 
     void Awake()
     {
@@ -37,14 +43,42 @@ public class RegionController : MonoBehaviour
 
     void OnEnable()
     {
+        GlobalEventManager.OnHackSuccess    += OnHackSuccess;
         GlobalEventManager.OnTimeChanged    += UpdateStatsByTime;
         GlobalEventManager.OnDefenseChanged += OnDefenseChanged;
     }
 
     void OnDisable()
     {
+        GlobalEventManager.OnHackSuccess    -= OnHackSuccess;
         GlobalEventManager.OnTimeChanged    -= UpdateStatsByTime;
         GlobalEventManager.OnDefenseChanged -= OnDefenseChanged;
+    }
+
+    void Update()
+    {
+        // 감염 상태가 바뀌었을 때만 색상 갱신 (로드 복원 포함)
+        if (data != null && data.isInfected != _lastInfectedState)
+        {
+            _lastInfectedState = data.isInfected;
+            RefreshColor();
+        }
+    }
+
+    void OnHackSuccess(string regionId, int _)
+    {
+        if (data == null || data.id != regionId) return;
+        _lastInfectedState = true;
+        RefreshColor();
+    }
+
+    void RefreshColor()
+    {
+        if (regionRenderer == null || data == null) return;
+        if (data.isInfected)
+            regionRenderer.material.color = infectedColor;
+        else
+            regionRenderer.material.color = originalColor;
     }
 
     // ── 낮/밤 스탯 변동 ──────────────────────────────────────────

@@ -19,6 +19,8 @@ public class RegionDataLoader : MonoBehaviour
     {
         if (InfectionEngine.Instance != null && regions.Count > 0)
         {
+            // GameManager.InitGame()은 코루틴으로 1프레임 후 실행되므로
+            // 이 Start()가 항상 먼저 실행됨 → regions를 항상 초기화
             InfectionEngine.Instance.regions = new List<RegionData>(regions);
             Debug.Log($"[RegionDataLoader] InfectionEngine에 {regions.Count}개 구역 데이터 연결 완료");
         }

@@ -2,24 +2,48 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Process 씬에서의 씬 전환을 담당한다.
-/// BackToGame() → "New main" 씬으로 복귀.
+/// Process씬(업그레이드 화면) 전용 매니저.
+/// - Start(): 저장 파일에서 PlayerStats/EvolutionManager 복원
+/// - BackToGame(): 업그레이드 내용 저장 후 New main 복귀
+/// - BackToSelect(): 저장 삭제 후 select씬으로
 /// </summary>
 public class ProcessSceneManager : MonoBehaviour
 {
-    [Tooltip("뒤로 갈 때 로드할 메인 씬 이름. Build Settings에 등록돼 있어야 한다.")]
+    public static ProcessSceneManager Instance;
+
+    [Tooltip("돌아갈 메인 씬 이름. Build Settings에 등록돼 있어야 한다.")]
     public string mainSceneName = "New main";
 
-    /// <summary>
-    /// ButtonBack.onClick에 연결되는 콜백.
-    /// </summary>
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
+    void Start()
+    {
+        Time.timeScale = 1f;
+
+        // 저장 파일에서 PlayerStats(코인)와 EvolutionManager(레벨) 복원
+        // GameManager가 없어도 null-safe로 처리됨
+        if (SaveManager.Instance != null && SaveManager.Instance.HasSave())
+            SaveManager.Instance.Load();
+    }
+
+    // 확인 버튼: 업그레이드 저장 후 게임으로 복귀
     public void BackToGame()
     {
-        if (string.IsNullOrEmpty(mainSceneName))
-        {
-            Debug.LogError("[ProcessSceneManager] mainSceneName이 비어있습니다.");
-            return;
-        }
+        SaveManager.Instance?.Save();
+        Time.timeScale = 1f;
         SceneManager.LoadScene(mainSceneName);
+    }
+
+    // 처음부터 버튼: 세이브 삭제 후 바이러스 선택 화면으로
+    public void BackToSelect()
+    {
+        SaveManager.Instance?.DeleteSave();
+        GameFlowData.IsNewGame = true;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("select");
     }
 }

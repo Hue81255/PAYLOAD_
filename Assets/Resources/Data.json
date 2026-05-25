@@ -4,271 +4,73 @@
       "id": "GUNWI_GUN",
       "name": "군위군",
       "type": "Rural",
-      "defenseMin": {
-        "infection": 1,
-        "complexity": 1,
-        "stealth": 1
-      },
-      "targets": [
-        {
-          "name": "스마트축사센서",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 20
-        },
-        {
-          "name": "군위축협",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 50
-        },
-        {
-          "name": "군위군청",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 120
-        }
-      ]
+      "minStats": { "inf": 1, "comp": 1, "stealth": 1 },
+      "reward": 100,
+      "isBoss": false
     },
     {
       "id": "DALSEONG_GUN",
       "name": "달성군",
       "type": "Rural",
-      "defenseMin": {
-        "infection": 1,
-        "complexity": 1,
-        "stealth": 1
-      },
-      "targets": [
-        {
-          "name": "스마트팜IoT",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 20
-        },
-        {
-          "name": "농협",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 50
-        },
-        {
-          "name": "면사무소",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 120
-        }
-      ]
+      "minStats": { "inf": 1, "comp": 1, "stealth": 2 },
+      "reward": 100,
+      "isBoss": false
     },
     {
       "id": "SEO_GU",
       "name": "서구",
       "type": "Residential",
-      "defenseMin": {
-        "infection": 2,
-        "complexity": 2,
-        "stealth": 2
-      },
-      "targets": [
-        {
-          "name": "스마트가로등",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 30
-        },
-        {
-          "name": "서대구공단기업",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 80
-        },
-        {
-          "name": "고속철도",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 80
-        }
-      ]
+      "minStats": { "inf": 2, "comp": 2, "stealth": 2 },
+      "reward": 150,
+      "isBoss": false
     },
     {
       "id": "DONG_GU",
       "name": "동구",
       "type": "Residential",
-      "defenseMin": {
-        "infection": 2,
-        "complexity": 3,
-        "stealth": 2
-      },
-      "targets": [
-        {
-          "name": "동대구역",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 30
-        },
-        {
-          "name": "신세계백화점",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 80
-        },
-        {
-          "name": "아파트단지",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 200
-        }
-      ]
+      "minStats": { "inf": 2, "comp": 3, "stealth": 2 },
+      "reward": 180,
+      "isBoss": false
     },
     {
       "id": "BUK_GU",
       "name": "북구",
       "type": "Residential",
-      "defenseMin": {
-        "infection": 2,
-        "complexity": 2,
-        "stealth": 3
-      },
-      "targets": [
-        {
-          "name": "스마트가로등",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 30
-        },
-        {
-          "name": "대구유통단지",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 80
-        },
-        {
-          "name": "북구청",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 200
-        }
-      ]
+      "minStats": { "inf": 2, "comp": 2, "stealth": 3 },
+      "reward": 180,
+      "isBoss": false
     },
     {
       "id": "NAM_GU",
       "name": "남구",
       "type": "Residential",
-      "defenseMin": {
-        "infection": 2,
-        "complexity": 2,
-        "stealth": 2
-      },
-      "targets": [
-        {
-          "name": "스마트가로등",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 30
-        },
-        {
-          "name": "앞산카페상가",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 80
-        },
-        {
-          "name": "종합병원",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 200
-        }
-      ]
+      "minStats": { "inf": 2, "comp": 2, "stealth": 2 },
+      "reward": 160,
+      "isBoss": false
     },
     {
       "id": "SUSEONG_GU",
       "name": "수성구",
       "type": "Affluent",
-      "defenseMin": {
-        "infection": 3,
-        "complexity": 3,
-        "stealth": 3
-      },
-      "targets": [
-        {
-          "name": "스마트가로등",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 45
-        },
-        {
-          "name": "은행",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 120
-        },
-        {
-          "name": "수성구청",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 300
-        }
-      ]
+      "minStats": { "inf": 3, "comp": 3, "stealth": 3 },
+      "reward": 280,
+      "isBoss": false
     },
     {
       "id": "DALSEO_GU",
       "name": "달서구",
       "type": "Industrial",
-      "defenseMin": {
-        "infection": 3,
-        "complexity": 4,
-        "stealth": 3
-      },
-      "targets": [
-        {
-          "name": "성서공단센서",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 45
-        },
-        {
-          "name": "자동차부품공장",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 120
-        },
-        {
-          "name": "달서구청",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 300
-        }
-      ]
+      "minStats": { "inf": 3, "comp": 4, "stealth": 3 },
+      "reward": 260,
+      "isBoss": false
     },
     {
       "id": "JUNG_GU",
       "name": "중구",
       "type": "Business",
-      "defenseMin": {
-        "infection": 5,
-        "complexity": 5,
-        "stealth": 5
-      },
-      "targets": [
-        {
-          "name": "스마트신호등",
-          "type": "IOT",
-          "minInf": 1,
-          "reward": 60
-        },
-        {
-          "name": "대형백화점",
-          "type": "Company",
-          "minInf": 2,
-          "reward": 180
-        },
-        {
-          "name": "대구시청",
-          "type": "Boss",
-          "minInf": 3,
-          "reward": 450
-        }
-      ]
+      "minStats": { "inf": 5, "comp": 5, "stealth": 5 },
+      "reward": 400,
+      "isBoss": true
     }
   ]
 }
