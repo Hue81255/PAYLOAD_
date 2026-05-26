@@ -293,13 +293,25 @@ namespace TraitTree
                 if (debugLogs) Debug.LogWarning("[TraitTreeView] RefreshSliderActuals: PlayerStats.Instance == null → 슬라이더 갱신 불가");
                 return;
             }
-            if (infSlider     != null) infSlider.SetActual(PlayerStats.Instance.inf);
-            if (compSlider    != null) compSlider.SetActual(PlayerStats.Instance.comp);
-            if (stealthSlider != null) stealthSlider.SetActual(PlayerStats.Instance.stealth);
+
+            // 기본 스탯 + 이 지역에 해제된 노드 보너스
+            int inf     = TraitTreeManager.Instance != null
+                ? TraitTreeManager.Instance.GetCurrentStat(TraitCategory.Inf)
+                : PlayerStats.Instance.inf;
+            int comp    = TraitTreeManager.Instance != null
+                ? TraitTreeManager.Instance.GetCurrentStat(TraitCategory.Comp)
+                : PlayerStats.Instance.comp;
+            int stealth = TraitTreeManager.Instance != null
+                ? TraitTreeManager.Instance.GetCurrentStat(TraitCategory.Stealth)
+                : PlayerStats.Instance.stealth;
+
+            if (infSlider     != null) infSlider.SetActual(inf);
+            if (compSlider    != null) compSlider.SetActual(comp);
+            if (stealthSlider != null) stealthSlider.SetActual(stealth);
 
             if (debugLogs)
-                Debug.Log($"[TraitTreeView] sliders ← inf={PlayerStats.Instance.inf}, " +
-                          $"comp={PlayerStats.Instance.comp}, stealth={PlayerStats.Instance.stealth}");
+                Debug.Log($"[TraitTreeView] sliders ← inf={inf}, comp={comp}, stealth={stealth}" +
+                          $" (region={TraitTreeManager.Instance?.CurrentRegionId ?? "none"})");
         }
 
         static string CategoryKor(TraitCategory c)

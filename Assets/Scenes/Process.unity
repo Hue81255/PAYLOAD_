@@ -8004,7 +8004,7 @@ MonoBehaviour:
   inf: 10
   comp: 10
   stealth: 10
-  coins: 99999
+  coins: 100
 --- !u!4 &1311180858
 Transform:
   m_ObjectHideFlags: 0

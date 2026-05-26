@@ -92,22 +92,20 @@ public class SaveManager : MonoBehaviour
                 data.regions.Add(new RegionSaveData { regionId = r.id, isInfected = r.isInfected });
         }
 
-        // TraitTree 언락 노드
-        // Process씬에서는 TraitTreeManager가 살아있으므로 직접 읽고,
-        // 메인씬에서 저장할 때는 기존 파일의 목록을 그대로 보존한다.
+        // 지역별 TraitTree 언락 노드
         if (TraitTree.TraitTreeManager.Instance != null)
-            data.unlockedTraitNodes = TraitTree.TraitTreeManager.Instance.GetUnlockedNames();
+            data.regionTraitNodes = TraitTree.TraitTreeManager.Instance.GetAllSaveData();
         else if (HasSave(slot))
         {
             try
             {
                 var prev = JsonUtility.FromJson<SaveData>(File.ReadAllText(SlotPath(slot)));
-                data.unlockedTraitNodes = prev?.unlockedTraitNodes ?? new List<string>();
+                data.regionTraitNodes = prev?.regionTraitNodes ?? new List<RegionTraitSaveData>();
             }
-            catch { data.unlockedTraitNodes = new List<string>(); }
+            catch { data.regionTraitNodes = new List<RegionTraitSaveData>(); }
         }
         else
-            data.unlockedTraitNodes = new List<string>();
+            data.regionTraitNodes = new List<RegionTraitSaveData>();
 
         File.WriteAllText(SlotPath(slot), JsonUtility.ToJson(data, true));
         Debug.Log($"[SaveManager] 슬롯 {slot} 저장 완료 ({data.savedAt})");
@@ -192,9 +190,9 @@ public class SaveManager : MonoBehaviour
         // ── 9. 악성코드 패시브 복원 (UI 패널 없이 재개) ──────────
         MalwareSelectionManager.Instance?.RestoreFromSave(data.malwareType);
 
-        // ── 10. TraitTree 언락 상태 복원 (Process씬에서만 동작) ──
-        if (TraitTree.TraitTreeManager.Instance != null && data.unlockedTraitNodes != null)
-            TraitTree.TraitTreeManager.Instance.RestoreFromNames(data.unlockedTraitNodes);
+        // ── 10. 지역별 TraitTree 언락 상태 복원 (Process씬에서만 동작) ──
+        if (TraitTree.TraitTreeManager.Instance != null && data.regionTraitNodes != null)
+            TraitTree.TraitTreeManager.Instance.RestoreFromSaveData(data.regionTraitNodes);
 
         // ── 11. 게임 상태 전환 ───────────────────────────────────
         if (GameManager.Instance != null)

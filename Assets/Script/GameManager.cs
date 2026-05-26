@@ -61,9 +61,13 @@ public class GameManager : MonoBehaviour
             SaveManager.CurrentSlot = GameFlowData.SelectedSlot;
             if (SaveManager.Instance == null || !SaveManager.Instance.Load())
             {
-                // 저장 파일 없으면 select씬으로 이동
-                GameFlowData.IsNewGame = true;
-                SceneManager.LoadScene("select");
+                // 저장 파일 없음 (테스트 모드 등) → select씬으로 보내지 않고 새 게임으로 재개
+                Debug.LogWarning("[GameManager] 저장 파일 없음 → 메인씬에서 새 게임으로 재시작");
+                MalwareSelectionManager.Instance?.ApplyNewGame(GameFlowData.SelectedMalwareType);
+                StartGame();
+                RegionData start = RegionDataLoader.Instance?.GetRegionById("JUNG_GU");
+                if (start != null) ConfirmStartInfection(start);
+                else SpreadManager.Instance?.StartSpread();
             }
         }
     }
@@ -152,6 +156,8 @@ public class GameManager : MonoBehaviour
     // 업그레이드 버튼 → Process씬 (이동 전 저장)
     public void GoToProcess()
     {
+        // 현재 선택된 지역을 GameFlowData에 기록해 Process씬에서 사용
+        GameFlowData.SelectedRegionId = UIManager.Instance?.GetSelectedRegion()?.id ?? "";
         SaveManager.Instance?.Save();
         Time.timeScale = 0f;
         SceneManager.LoadScene("Process");

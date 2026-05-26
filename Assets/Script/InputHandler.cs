@@ -14,12 +14,18 @@ public class InputHandler : MonoBehaviour
         if (Camera.main == null) return;
 
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
-        if (!Physics.Raycast(ray, out RaycastHit hit)) return;
-        if (!hit.collider.TryGetComponent<RegionController>(out var region)) return;
+        if (!Physics.Raycast(ray, out RaycastHit hit))
+        {
+            UIManager.Instance?.HideRegionInfo();
+            return;
+        }
+        if (!hit.collider.TryGetComponent<RegionController>(out var region))
+        {
+            UIManager.Instance?.HideRegionInfo();
+            return;
+        }
 
-        // 지역 클릭 시 감염 상태 정보 표시 (자동 전파 방식이므로 클릭으로 감염 없음)
         if (region.data != null)
-            UIManager.Instance?.ShowWarning(
-                $"{region.data.name} — 감염: {(region.data.isInfected ? "O" : "X")}");
+            UIManager.Instance?.ShowRegionInfo(region.data);
     }
 }

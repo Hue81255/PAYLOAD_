@@ -28,12 +28,24 @@ public class UIManager : MonoBehaviour
     public Text infectedCountText;
     public Text spreadTimerText;
 
+    [Header("지역 정보 패널")]
+    public GameObject regionInfoPanel;
+    public Text regionNameText;
+    public Text regionTypeText;
+    public Text regionInfStatusText;
+    public Text regionPenRateText;
+    public Text regionTimeText;
+
+    [Header("환경설정 패널")]
+    public GameObject settingsPanel;
+
     [Header("알림 텍스트 (TMP — 하나만 연결)")]
     public TMP_Text notifyText;
     [Tooltip("알림이 화면에 유지되는 시간(초)")]
     public float warningDuration = 4f;
 
     private Coroutine _clearCoroutine;
+    private RegionData _selectedRegion;
 
     void Awake()
     {
@@ -71,6 +83,9 @@ public class UIManager : MonoBehaviour
             UpdateWhiteHackerUI();
             UpdateInfectionUI();
         }
+
+        if (_selectedRegion != null && regionInfoPanel != null && regionInfoPanel.activeSelf)
+            RefreshRegionPanel();
     }
 
     // ── 알림 표시 ─────────────────────────────────────────────────
@@ -167,5 +182,79 @@ public class UIManager : MonoBehaviour
         if (cureSlider  != null) cureSlider.value  = 0f;
         if (cureText    != null) cureText.text      = "발각도 0%";
         if (coinText    != null) coinText.text       = "💰 100";
+    }
+
+    // ── 지역 정보 패널 ────────────────────────────────────────────
+
+    public RegionData GetSelectedRegion() => _selectedRegion;
+
+    public void ShowRegionInfo(RegionData region)
+    {
+        _selectedRegion = region;
+        if (regionInfoPanel != null) regionInfoPanel.SetActive(true);
+        RefreshRegionPanel();
+    }
+
+    public void HideRegionInfo()
+    {
+        _selectedRegion = null;
+        if (regionInfoPanel != null) regionInfoPanel.SetActive(false);
+    }
+
+    void RefreshRegionPanel()
+    {
+        if (_selectedRegion == null) return;
+
+        if (regionNameText != null)
+            regionNameText.text = _selectedRegion.name;
+
+        if (regionTypeText != null)
+            regionTypeText.text = $"유형: {TypeKor(_selectedRegion.type)}";
+
+        if (regionInfStatusText != null)
+            regionInfStatusText.text = _selectedRegion.isInfected ? "상태: 감염됨" : "상태: 미감염";
+
+        if (regionPenRateText != null && SpreadManager.Instance != null)
+        {
+            float chance = SpreadManager.Instance.GetDisplayChance(_selectedRegion);
+            regionPenRateText.text = _selectedRegion.isInfected
+                ? "침투율: -"
+                : $"침투율: {Mathf.RoundToInt(chance * 100f)}%";
+        }
+
+        if (regionTimeText != null && TimeManager.instance != null)
+        {
+            float t = TimeManager.instance.currentTime;
+            int h = Mathf.FloorToInt(t);
+            int m = Mathf.FloorToInt((t - h) * 60f);
+            string period = TimeManager.instance.isNight ? "야간" : "주간";
+            regionTimeText.text = $"시간: {h:D2}:{m:D2} ({period})";
+        }
+    }
+
+    static string TypeKor(string type)
+    {
+        switch (type)
+        {
+            case "Business":    return "업무지구";
+            case "Residential": return "주거지구";
+            case "Industrial":  return "산업지구";
+            case "Government":  return "관공서";
+            case "Medical":     return "의료시설";
+            default:            return type ?? "-";
+        }
+    }
+
+    // ── 환경설정 패널 ─────────────────────────────────────────────
+
+    public void ToggleSettings()
+    {
+        if (settingsPanel == null) return;
+        settingsPanel.SetActive(!settingsPanel.activeSelf);
+    }
+
+    public void CloseSettings()
+    {
+        if (settingsPanel != null) settingsPanel.SetActive(false);
     }
 }

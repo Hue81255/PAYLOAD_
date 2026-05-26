@@ -40,9 +40,14 @@ public class InfectionEngine : MonoBehaviour
         int minStat = RegionAdjacencyManager.Instance != null
             ? RegionAdjacencyManager.Instance.minEffectiveStat : 5;
 
-        bool success = playerInf >= Mathf.Max(minStat, target.minStats.inf - totalReduction) &&
-                       playerComp >= Mathf.Max(minStat, target.minStats.comp - totalReduction) &&
-                       playerStealth >= Mathf.Max(minStat, target.minStats.stealth - totalReduction);
+        // 해당 지역에 해제된 트레이트 노드 보너스 합산
+        int bInf     = TraitTree.TraitTreeManager.Instance?.GetRegionStatBonus(target.id, TraitTree.TraitCategory.Inf)     ?? 0;
+        int bComp    = TraitTree.TraitTreeManager.Instance?.GetRegionStatBonus(target.id, TraitTree.TraitCategory.Comp)    ?? 0;
+        int bStealth = TraitTree.TraitTreeManager.Instance?.GetRegionStatBonus(target.id, TraitTree.TraitCategory.Stealth) ?? 0;
+
+        bool success = (playerInf     + bInf)     >= Mathf.Max(minStat, target.minStats.inf     - totalReduction) &&
+                       (playerComp    + bComp)    >= Mathf.Max(minStat, target.minStats.comp    - totalReduction) &&
+                       (playerStealth + bStealth) >= Mathf.Max(minStat, target.minStats.stealth - totalReduction);
 
         if (success)
         {

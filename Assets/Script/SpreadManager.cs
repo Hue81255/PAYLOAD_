@@ -116,13 +116,20 @@ public class SpreadManager : MonoBehaviour
 
     // ── 전파 확률 계산 ────────────────────────────────────────────
 
+    public float GetDisplayChance(RegionData target)
+    {
+        if (target == null || target.isInfected) return 0f;
+        return Mathf.Clamp(CalcSpreadChance(target) * GetTimeMultiplier(), 0.05f, 0.95f);
+    }
+
     float CalcSpreadChance(RegionData target)
     {
         int playerInf    = InfectionEngine.Instance != null ? InfectionEngine.Instance.playerInf : 10;
+        int regionBonus  = TraitTree.TraitTreeManager.Instance?.GetRegionStatBonus(target.id, TraitTree.TraitCategory.Inf) ?? 0;
         int adjReduction = target.defenseReduction;
         int effectiveDef = Mathf.Max(1, target.minStats.inf - adjReduction);
 
-        float chance = baseSpreadChance + (playerInf - effectiveDef) * 0.015f;
+        float chance = baseSpreadChance + (playerInf + regionBonus - effectiveDef) * 0.015f;
         return Mathf.Clamp(chance, 0.05f, 0.95f);
     }
 

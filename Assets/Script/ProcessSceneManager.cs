@@ -21,6 +21,9 @@ public class ProcessSceneManager : MonoBehaviour
         // 저장 파일에서 PlayerStats(코인)와 EvolutionManager(레벨) 복원
         if (SaveManager.Instance != null && SaveManager.Instance.HasSave())
             SaveManager.Instance.Load();
+
+        // 어느 지역을 편집 중인지 TraitTreeManager에 알림
+        TraitTree.TraitTreeManager.Instance?.SetCurrentRegion(GameFlowData.SelectedRegionId);
     }
 
     // 확인 버튼: 업그레이드 저장 후 게임으로 복귀

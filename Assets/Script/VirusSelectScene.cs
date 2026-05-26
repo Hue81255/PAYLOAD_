@@ -86,10 +86,15 @@ public class VirusSelectScene : MonoBehaviour
         if (d.stealthBonus != 0) stats += $"은신도 {Fmt(d.stealthBonus)}\n";
         if (d.coinBonus    != 0) stats += $"코인 {Fmt(d.coinBonus)}\n";
         if (selectedStatsText) selectedStatsText.text = stats.TrimEnd();
+
+        Debug.Log($"[VirusSelectScene] 선택됨: {d.displayName} (MalwareType={d.type}, index={index})");
     }
 
     void OnConfirm()
     {
+        var d = _defs[_selectedIndex];
+        Debug.Log($"[VirusSelectScene] 확인 버튼 — SelectedMalwareType={_selectedIndex} ({d.displayName}) → New main 씬으로 이동");
+
         GameFlowData.SelectedMalwareType = _selectedIndex;
         GameFlowData.IsNewGame           = true;
         SceneManager.LoadScene("New main");
