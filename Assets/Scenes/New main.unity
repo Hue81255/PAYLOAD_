@@ -5510,24 +5510,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d83ced03c6d22418ef678c76fa69bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinText: {fileID: 0}
+  coinText: {fileID: 1667081439}
   cureSlider: {fileID: 1730068639}
-  cureText: {fileID: 1889613199}
+  cureText: {fileID: 1509038710}
   cureBarFill: {fileID: 1935424311}
   infText: {fileID: 0}
   compText: {fileID: 0}
   stealthText: {fileID: 0}
   whiteHackerSlider: {fileID: 501618130}
   whiteHackerTargetText: {fileID: 0}
-  infectedCountText: {fileID: 0}
+  infectedCountText: {fileID: 950754618}
   spreadTimerText: {fileID: 0}
-  regionInfoPanel: {fileID: 0}
-  regionNameText: {fileID: 0}
-  regionTypeText: {fileID: 0}
-  regionInfStatusText: {fileID: 0}
-  regionPenRateText: {fileID: 0}
-  regionTimeText: {fileID: 0}
-  settingsPanel: {fileID: 0}
+  regionInfoPanel: {fileID: 2026916354}
+  regionNameText: {fileID: 578018935}
+  regionTypeText: {fileID: 893931660}
+  regionInfStatusText: {fileID: 1983899567}
+  regionPenRateText: {fileID: 1052616906}
+  regionTimeText: {fileID: 1854874724}
+  settingsPanel: {fileID: 1870953622}
   notifyText: {fileID: 347416608}
   warningDuration: 5
 --- !u!1 &903029055
@@ -7160,7 +7160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinText: {fileID: 0}
   cureSlider: {fileID: 1225018386}
-  cureText: {fileID: 1889613199}
+  cureText: {fileID: 0}
   cureBarFill: {fileID: 956156619}
   infText: {fileID: 0}
   compText: {fileID: 0}
@@ -7266,7 +7266,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1197495649}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 309613472}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1197495649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8110,7 +8122,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1249834987}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1825490304}
+        m_TargetAssemblyTypeName: GameSpeedController, Assembly-CSharp
+        m_MethodName: Speed2x
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1249834987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9630,11 +9654,11 @@ MonoBehaviour:
     cardUI: {fileID: 0}
   - button: {fileID: 881741271}
     cardUI: {fileID: 0}
-  selectedNameText: {fileID: 0}
-  selectedDescText: {fileID: 0}
-  selectedPassiveText: {fileID: 0}
+  selectedNameText: {fileID: 490677421}
+  selectedDescText: {fileID: 1264613383}
+  selectedPassiveText: {fileID: 204432478}
   selectedAbilityText: {fileID: 0}
-  selectedStatsText: {fileID: 0}
+  selectedStatsText: {fileID: 1963272214}
   confirmButton: {fileID: 1791340589}
 --- !u!1 &1459979641
 GameObject:
@@ -12303,6 +12327,7 @@ GameObject:
   - component: {fileID: 1825490303}
   - component: {fileID: 1825490302}
   - component: {fileID: 1825490301}
+  - component: {fileID: 1825490304}
   m_Layer: 5
   m_Name: ButtonContinue
   m_TagString: Untagged
@@ -12373,7 +12398,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1825490302}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1825490304}
+        m_TargetAssemblyTypeName: GameSpeedController, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1825490302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12412,6 +12449,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1825490299}
   m_CullTransparentMesh: 1
+--- !u!114 &1825490304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1825490299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ba22a4b05dc2b4da5a277ce3370dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseButtonBg: {fileID: 1726639716}
+  playButtonBg: {fileID: 584364294}
+  speed2xButtonBg: {fileID: 1012528917}
+  activeColor: {r: 1, g: 0.8, b: 0.2, a: 1}
+  inactiveColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
 --- !u!1 &1842735093
 GameObject:
   m_ObjectHideFlags: 0
@@ -13488,7 +13542,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1989513120}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1825490304}
+        m_TargetAssemblyTypeName: GameSpeedController, Assembly-CSharp
+        m_MethodName: Pause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1989513120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14036,7 +14102,7 @@ Transform:
   m_GameObject: {fileID: 2040897213}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0302, y: 0.0044, z: 0}
+  m_LocalPosition: {x: -3.4, y: 0.26, z: 0}
   m_LocalScale: {x: 39.63917, y: 19.885399, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []

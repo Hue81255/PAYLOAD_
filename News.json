@@ -1,0 +1,231 @@
+{
+  "_comment": "PAYLOAD_ 뉴스 이벤트 데이터. flavorNews=진행도(tier)별 랜덤, infoNews=조건 달성 시 1회, malwareNews=선택 악성코드별 전용. 실제 대구 구/군명 사용, 기관명은 가상.",
+  "flavorNews": [
+    {
+      "id": "flv_e01",
+      "tier": "early",
+      "type": "internet",
+      "body": "달서구 주민들 \"휴대폰이 갑자기 느려졌다\" 호소 잇따라"
+    },
+    {
+      "id": "flv_e02",
+      "tier": "early",
+      "type": "news",
+      "body": "서구 산업단지 보안업체, 네트워크 이상 트래픽 감지"
+    },
+    {
+      "id": "flv_e03",
+      "tier": "early",
+      "type": "internet",
+      "body": "\"공용 와이파이 쓴 뒤 폰이 이상해요\" 남구서 제보 확산"
+    },
+    {
+      "id": "flv_e04",
+      "tier": "early",
+      "type": "internet",
+      "body": "\"스팸 문자 누르자 배터리 순식간에\" 제보 잇따라"
+    },
+    {
+      "id": "flv_e05",
+      "tier": "early",
+      "type": "news",
+      "body": "달성군 일부 마을, 스마트 가전 오작동 신고 접수"
+    },
+    {
+      "id": "flv_e06",
+      "tier": "early",
+      "type": "internet",
+      "body": "비공식 경로 프로그램서 이상 동작… \"백신도 못 잡아\""
+    },
+    {
+      "id": "flv_e07",
+      "tier": "early",
+      "type": "news",
+      "body": "지역 PC방들 \"컴퓨터가 단체로 느려졌다\" 한숨"
+    },
+    {
+      "id": "flv_m01",
+      "tier": "mid",
+      "type": "news",
+      "body": "달성군 중소기업 여러 곳, 원인 불명 시스템 장애"
+    },
+    {
+      "id": "flv_m02",
+      "tier": "mid",
+      "type": "news",
+      "body": "북구 사이버 침해 신고, 전월 대비 급증"
+    },
+    {
+      "id": "flv_m03",
+      "tier": "mid",
+      "type": "internet",
+      "body": "수성구 직장인 익명 게시판 \"우리 회사도 당했다\" 술렁"
+    },
+    {
+      "id": "flv_m04",
+      "tier": "mid",
+      "type": "news",
+      "body": "지역 은행권, 보안 강화 위해 온라인 서비스 일시 점검"
+    },
+    {
+      "id": "flv_m05",
+      "tier": "mid",
+      "type": "analysis",
+      "body": "전문가들 \"감염 패턴, 네트워크 타고 번지는 중\""
+    },
+    {
+      "id": "flv_m06",
+      "tier": "mid",
+      "type": "internet",
+      "body": "\"병원 예약 시스템 먹통\" 시민 불편 호소"
+    },
+    {
+      "id": "flv_m07",
+      "tier": "mid",
+      "type": "news",
+      "body": "교통 전광판 일부 오작동… \"엉뚱한 정보 표시\""
+    },
+    {
+      "id": "flv_l01",
+      "tier": "late",
+      "type": "news",
+      "body": "[단독] 동구 보안당국, 비상 대응 체제 돌입"
+    },
+    {
+      "id": "flv_l02",
+      "tier": "late",
+      "type": "news",
+      "body": "중구 주요 기관 전산망 마비… 시민 불편 가중"
+    },
+    {
+      "id": "flv_l03",
+      "tier": "late",
+      "type": "internet",
+      "body": "\"이거 영화 아니냐\" 대구 전역 마비 실시간 중계"
+    },
+    {
+      "id": "flv_l04",
+      "tier": "late",
+      "type": "news",
+      "body": "전문가 \"단일 악성코드로 보기 어려운 규모\""
+    },
+    {
+      "id": "flv_l05",
+      "tier": "late",
+      "type": "news",
+      "body": "타 시도 보안기관, 대구에 긴급 지원 인력 파견"
+    },
+    {
+      "id": "flv_l06",
+      "tier": "late",
+      "type": "internet",
+      "body": "\"카드 결제가 안 돼요\" 결제망 마비에 시민 발 동동"
+    },
+    {
+      "id": "flv_l07",
+      "tier": "late",
+      "type": "analysis",
+      "body": "대응팀 \"방어선 무너지는 속도가 예상보다 빠르다\""
+    }
+  ],
+  "infoNews": [
+    {
+      "id": "inf_stealth_low",
+      "condition": "STEALTH_LOW",
+      "type": "analysis",
+      "body": "[분석] 보안 탐지망 촘촘해져… 은신성 낮으면 적발 빨라"
+    },
+    {
+      "id": "inf_complexity_low",
+      "condition": "COMPLEXITY_LOW",
+      "type": "analysis",
+      "body": "[분석] 신형 백신, 단순 구조 악성코드 빠르게 무력화"
+    },
+    {
+      "id": "inf_infection_threshold",
+      "condition": "REGION_INFECTION_40",
+      "type": "analysis",
+      "body": "[분석] 감염률 40% 넘으면 인접 지역 확산 가속"
+    },
+    {
+      "id": "inf_institution_ready",
+      "condition": "BOSS_UNLOCKED",
+      "type": "news",
+      "body": "[속보] 주요 기관 보안 점검 일시 중단… 방어 느슨"
+    },
+    {
+      "id": "inf_treatment_started",
+      "condition": "TREATMENT_STARTED",
+      "type": "news",
+      "body": "[속보] 대구시 합동 대응팀, 백신 개발 착수"
+    },
+    {
+      "id": "inf_coin_rich",
+      "condition": "COIN_HIGH",
+      "type": "analysis",
+      "body": "[분석] 다크웹 데이터 거래가 상승세"
+    },
+    {
+      "id": "inf_near_win",
+      "condition": "REGIONS_MOSTLY_CAPTURED",
+      "type": "news",
+      "body": "[긴급] 대구 대부분 마비… 마지막 보루만 남아"
+    },
+    {
+      "id": "inf_detection_rising",
+      "condition": "DETECTION_HIGH",
+      "type": "analysis",
+      "body": "[분석] 백신 개발 속도 위험 수위 근접"
+    },
+    {
+      "id": "inf_first_region",
+      "condition": "FIRST_REGION_CAPTURED",
+      "type": "news",
+      "body": "[속보] 대구 한 자치구, 사실상 기능 정지"
+    },
+    {
+      "id": "inf_half_city",
+      "condition": "HALF_CAPTURED",
+      "type": "news",
+      "body": "[긴급] 대구 절반이 통제 불능 상태"
+    },
+    {
+      "id": "inf_infection_high_single",
+      "condition": "INFECTION_STAT_HIGH",
+      "type": "analysis",
+      "body": "[분석] 전염력 강한 변종 출현… \"빠르지만 눈에 띈다\""
+    }
+  ],
+  "malwareNews": [
+    {
+      "id": "mw_ransom",
+      "condition": "MALWARE_RANSOMWARE",
+      "type": "news",
+      "body": "[속보] 정체불명 협박 메시지 \"복구 원하면 대가 지불하라\""
+    },
+    {
+      "id": "mw_spyware",
+      "condition": "MALWARE_SPYWARE",
+      "type": "analysis",
+      "body": "[분석] \"감염 사실조차 몰랐다\"… 조용한 정보 유출 정황"
+    },
+    {
+      "id": "mw_worm",
+      "condition": "MALWARE_WORM",
+      "type": "news",
+      "body": "[속보] 감염, 네트워크 타고 \"눈 깜짝할 새\" 번져"
+    },
+    {
+      "id": "mw_stealer",
+      "condition": "MALWARE_STEALER",
+      "type": "analysis",
+      "body": "[분석] 대량 개인정보, 다크웹에 매물로"
+    },
+    {
+      "id": "mw_crypto",
+      "condition": "MALWARE_CRYPTOMINER",
+      "type": "internet",
+      "body": "\"전기요금 폭탄 맞았다\" 감염 기기 과부하 호소"
+    }
+  ]
+}
