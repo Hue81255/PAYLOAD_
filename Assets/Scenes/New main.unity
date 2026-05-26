@@ -3749,7 +3749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFileName: News
-  flavorInterval: 25
+  flavorInterval: 20
   conditionCheckInterval: 3
 --- !u!1 &584364292
 GameObject:
@@ -4980,55 +4980,6 @@ Camera:
     type: 3}
   m_PrefabInstance: {fileID: 1053369672}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &811727770
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 811727772}
-  - component: {fileID: 811727771}
-  m_Layer: 0
-  m_Name: InfectionEngine
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &811727771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811727770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3f1598e9fddfaa49986300066d28a52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerInf: 10
-  playerComp: 10
-  playerStealth: 10
-  hackEffect: {fileID: 0}
-  regions: []
---- !u!4 &811727772
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811727770}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &819811708
 GameObject:
   m_ObjectHideFlags: 0
@@ -11120,56 +11071,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667081437}
   m_CullTransparentMesh: 1
---- !u!1 &1692341031
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1692341033}
-  - component: {fileID: 1692341032}
-  m_Layer: 0
-  m_Name: WhiteHackerManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1692341032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692341031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3c10fc154725e04a816ff3814645aaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  scanInterval: 10
-  cureTime: 15
-  coinPenalty: 50
-  idleMultiplier: 1
-  alertMultiplier: 2
---- !u!4 &1692341033
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692341031}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.772068, y: -1.8838263, z: -0.37705642}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1699110924
 GameObject:
   m_ObjectHideFlags: 0
@@ -14929,6 +14830,7 @@ SceneRoots:
   - {fileID: 1198773230}
   - {fileID: 309613474}
   - {fileID: 2111761930}
+  - {fileID: 580613139}
   - {fileID: 1590868521}
   - {fileID: 1470251943}
   - {fileID: 80683490}
@@ -14942,13 +14844,10 @@ SceneRoots:
   - {fileID: 1223115418}
   - {fileID: 900662708}
   - {fileID: 1368216796}
+  - {fileID: 621699285}
   - {fileID: 2031686074}
   - {fileID: 21251383}
   - {fileID: 1726545291}
   - {fileID: 1999343163}
   - {fileID: 2040897215}
   - {fileID: 438261216}
-  - {fileID: 1692341033}
-  - {fileID: 811727772}
-  - {fileID: 621699285}
-  - {fileID: 580613139}
