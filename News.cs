@@ -28,9 +28,9 @@ public class NewsItem
     public string tier;       // flavor 전용: early/mid/late
     public string condition;  // info 전용: 조건 키
     public string type;       // news/internet/analysis
-    public string headline;
+    // headline 제거됨 - body만 사용
     public string body;
-    public string hint;       // info 전용: 플레이어 힌트
+    // hint 제거됨
     public string malware;    // malwareNews 전용: 악성코드 이름
 }
 
@@ -51,7 +51,7 @@ public class News : MonoBehaviour
     public float flavorInterval = 25f;
 
     // 뉴스가 발행될 때 UI가 구독하는 이벤트
-    // headline, body, type을 넘김
+    // body, type을 넘김
     public event Action<NewsItem> OnNewsPublished;
 
     private NewsDatabase db;
@@ -96,7 +96,7 @@ public class News : MonoBehaviour
         if (news != null)
         {
             OnNewsPublished?.Invoke(news);
-            Debug.Log($"[뉴스/악성코드] {news.headline}");
+            Debug.Log($"[뉴스/악성코드] {news.body}");
         }
     }
 
@@ -151,7 +151,7 @@ public class News : MonoBehaviour
         var picked = candidates[UnityEngine.Random.Range(0, candidates.Count)];
         usedFlavor.Add(picked.id);
         OnNewsPublished?.Invoke(picked);
-        Debug.Log($"[뉴스/플레이버] {picked.headline}");
+        Debug.Log($"[뉴스/플레이버] {picked.body}");
     }
 
     // =============================================
@@ -175,7 +175,7 @@ public class News : MonoBehaviour
                 {
                     firedInfoNews.Add(news.id);
                     OnNewsPublished?.Invoke(news);
-                    Debug.Log($"[뉴스/정보] {news.headline}  (힌트: {news.hint})");
+                    Debug.Log($"[뉴스/정보] {news.body}");
                 }
             }
         }
@@ -192,7 +192,7 @@ public class News : MonoBehaviour
                 {
                     firedInfoNews.Add(news.id);
                     OnNewsPublished?.Invoke(news);
-                    Debug.Log($"[뉴스/악성코드] {news.headline}  (힌트: {news.hint})");
+                    Debug.Log($"[뉴스/악성코드] {news.body}");
                 }
             }
         }
