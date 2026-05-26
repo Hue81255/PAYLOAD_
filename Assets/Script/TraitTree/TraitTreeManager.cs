@@ -8,9 +8,13 @@ namespace TraitTree
     {
         public static TraitTreeManager Instance;
 
-        // 지역 ID → 언락된 노드 집합
-        readonly Dictionary<string, HashSet<TraitNode>> _unlockedByRegion =
-            new Dictionary<string, HashSet<TraitNode>>();
+        // 지역 ID → 언락된 노드 이름 집합 (ScriptableObject 참조가 아닌 이름으로 저장)
+        readonly Dictionary<string, HashSet<string>> _unlockedByRegion =
+            new Dictionary<string, HashSet<string>>();
+
+        // 지역별 카테고리 보너스 캐시 (언락/복원 시 갱신)
+        readonly Dictionary<string, Dictionary<TraitCategory, int>> _bonusByRegion =
+            new Dictionary<string, Dictionary<TraitCategory, int>>();
 
         string _currentRegionId = "";
         public event Action OnTreeChanged;
@@ -36,19 +40,25 @@ namespace TraitTree
 
         public string CurrentRegionId => _currentRegionId;
 
-        HashSet<TraitNode> CurrentUnlocked
+        HashSet<string> CurrentUnlockedNames
         {
             get
             {
                 if (!_unlockedByRegion.ContainsKey(_currentRegionId))
-                    _unlockedByRegion[_currentRegionId] = new HashSet<TraitNode>();
+                    _unlockedByRegion[_currentRegionId] = new HashSet<string>();
                 return _unlockedByRegion[_currentRegionId];
             }
         }
 
         // ── 노드 상태 조회 ────────────────────────────────────────
 
-        public bool IsUnlocked(TraitNode n) => n != null && CurrentUnlocked.Contains(n);
+        // 이름 기반 비교 → 씬 재로드 후 인스턴스가 달라져도 정확히 동작
+        public bool IsUnlocked(TraitNode n)
+        {
+            if (n == null) return false;
+            if (!_unlockedByRegion.TryGetValue(_currentRegionId, out var set)) return false;
+            return set.Contains(n.name);
+        }
 
         public bool IsAvailable(TraitNode n)
         {
@@ -87,12 +97,10 @@ namespace TraitTree
         // 특정 지역의 카테고리별 누적 보너스 (InfectionEngine / SpreadManager 에서 사용)
         public int GetRegionStatBonus(string regionId, TraitCategory cat)
         {
-            if (string.IsNullOrEmpty(regionId) || !_unlockedByRegion.ContainsKey(regionId))
-                return 0;
-            int bonus = 0;
-            foreach (var n in _unlockedByRegion[regionId])
-                if (n != null && n.category == cat) bonus += n.effectAmount;
-            return bonus;
+            if (string.IsNullOrEmpty(regionId)) return 0;
+            if (!_bonusByRegion.TryGetValue(regionId, out var bonuses)) return 0;
+            bonuses.TryGetValue(cat, out int val);
+            return val;
         }
 
         // ── 언락 ──────────────────────────────────────────────────
@@ -102,10 +110,21 @@ namespace TraitTree
             if (!CanUnlockNow(n)) return false;
 
             PlayerStats.Instance.AddCoins(-n.cost);
-            // 글로벌 스탯 변경 없음 — 지역 전용 보너스로만 반영
-            CurrentUnlocked.Add(n);
+            CurrentUnlockedNames.Add(n.name);
+
+            // 보너스 캐시 업데이트
+            AddBonus(_currentRegionId, n.category, n.effectAmount);
+
             OnTreeChanged?.Invoke();
             return true;
+        }
+
+        void AddBonus(string regionId, TraitCategory cat, int amount)
+        {
+            if (!_bonusByRegion.ContainsKey(regionId))
+                _bonusByRegion[regionId] = new Dictionary<TraitCategory, int>();
+            var b = _bonusByRegion[regionId];
+            b[cat] = (b.TryGetValue(cat, out int cur) ? cur : 0) + amount;
         }
 
         // ── 저장/로드 ─────────────────────────────────────────────
@@ -116,14 +135,11 @@ namespace TraitTree
             foreach (var kv in _unlockedByRegion)
             {
                 if (kv.Value.Count == 0) continue;
-                var entry = new RegionTraitSaveData
+                result.Add(new RegionTraitSaveData
                 {
                     regionId      = kv.Key,
-                    unlockedNodes = new List<string>()
-                };
-                foreach (var node in kv.Value)
-                    if (node != null) entry.unlockedNodes.Add(node.name);
-                result.Add(entry);
+                    unlockedNodes = new List<string>(kv.Value)
+                });
             }
             return result;
         }
@@ -131,24 +147,41 @@ namespace TraitTree
         public void RestoreFromSaveData(List<RegionTraitSaveData> saveData)
         {
             _unlockedByRegion.Clear();
-            if (saveData == null) return;
+            _bonusByRegion.Clear();
+            if (saveData == null || saveData.Count == 0) return;
 
-            var nodeMap = new Dictionary<string, TraitNode>();
-            foreach (var ui in UnityEngine.Object.FindObjectsOfType<TraitNodeUI>())
-                if (ui.node != null) nodeMap[ui.node.name] = ui.node;
+            // 보너스 재계산용 노드 맵 (없어도 이름 복원 자체는 가능)
+            var nodeMap = BuildNodeMap();
 
             foreach (var entry in saveData)
             {
                 if (string.IsNullOrEmpty(entry.regionId) || entry.unlockedNodes == null) continue;
-                var set = new HashSet<TraitNode>();
+                if (entry.unlockedNodes.Count == 0) continue;
+
+                // 이름 집합 복원 (ScriptableObject 인스턴스 불필요)
+                _unlockedByRegion[entry.regionId] = new HashSet<string>(entry.unlockedNodes);
+
+                // 보너스 재계산
                 foreach (var name in entry.unlockedNodes)
                     if (nodeMap.TryGetValue(name, out var node))
-                        set.Add(node);
-                if (set.Count > 0)
-                    _unlockedByRegion[entry.regionId] = set;
+                        AddBonus(entry.regionId, node.category, node.effectAmount);
             }
 
+            Debug.Log($"[TraitTreeManager] 복원: {_unlockedByRegion.Count}개 지역, nodeMap={nodeMap.Count}개");
             OnTreeChanged?.Invoke();
+        }
+
+        static Dictionary<string, TraitNode> BuildNodeMap()
+        {
+            var map = new Dictionary<string, TraitNode>();
+            foreach (var node in Resources.FindObjectsOfTypeAll<TraitNode>())
+                if (node != null && !string.IsNullOrEmpty(node.name))
+                    map[node.name] = node;
+            // inactive 패널 포함해서도 탐색
+            foreach (var ui in UnityEngine.Object.FindObjectsOfType<TraitNodeUI>(true))
+                if (ui?.node != null && !map.ContainsKey(ui.node.name))
+                    map[ui.node.name] = ui.node;
+            return map;
         }
     }
 }

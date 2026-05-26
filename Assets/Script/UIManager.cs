@@ -8,38 +8,38 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [Header("코인 UI")]
-    public Text coinText;
+    public TMP_Text coinText;
 
     [Header("발각도 UI")]
-    public Slider cureSlider;
-    public Text   cureText;
-    public Image  cureBarFill;
+    public Slider   cureSlider;
+    public TMP_Text cureText;
+    public Image    cureBarFill;
 
     [Header("스탯 UI")]
-    public Text infText;
-    public Text compText;
-    public Text stealthText;
+    public TMP_Text infText;
+    public TMP_Text compText;
+    public TMP_Text stealthText;
 
     [Header("화이트해커 UI")]
-    public Slider whiteHackerSlider;
-    public Text   whiteHackerTargetText;
+    public Slider   whiteHackerSlider;
+    public TMP_Text whiteHackerTargetText;
 
     [Header("감염 현황 UI")]
-    public Text infectedCountText;
-    public Text spreadTimerText;
+    public TMP_Text infectedCountText;
+    public TMP_Text spreadTimerText;
 
     [Header("지역 정보 패널")]
     public GameObject regionInfoPanel;
-    public Text regionNameText;
-    public Text regionTypeText;
-    public Text regionInfStatusText;
-    public Text regionPenRateText;
-    public Text regionTimeText;
+    public TMP_Text   regionNameText;
+    public TMP_Text   regionTypeText;
+    public TMP_Text   regionInfStatusText;
+    public TMP_Text   regionPenRateText;
+    public TMP_Text   regionTimeText;
 
     [Header("환경설정 패널")]
     public GameObject settingsPanel;
 
-    [Header("알림 텍스트 (TMP — 하나만 연결)")]
+    [Header("알림 텍스트")]
     public TMP_Text notifyText;
     [Tooltip("알림이 화면에 유지되는 시간(초)")]
     public float warningDuration = 4f;
@@ -49,8 +49,9 @@ public class UIManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance != null && Instance != this)
+            Destroy(Instance.gameObject); // 오래된 인스턴스 제거, 현재 것을 사용
+        Instance = this;
     }
 
     void OnDestroy()
@@ -134,7 +135,7 @@ public class UIManager : MonoBehaviour
     {
         if (PlayerStats.Instance == null) return;
         if (coinText != null)
-            coinText.text = $"💰 {PlayerStats.Instance.coins}";
+            coinText.text = $"코인: {PlayerStats.Instance.coins}";
     }
 
     void UpdateStatUI()
@@ -178,10 +179,10 @@ public class UIManager : MonoBehaviour
     public void ResetUI()
     {
         if (_clearCoroutine != null) { StopCoroutine(_clearCoroutine); _clearCoroutine = null; }
-        if (notifyText  != null) notifyText.text   = "";
-        if (cureSlider  != null) cureSlider.value  = 0f;
-        if (cureText    != null) cureText.text      = "발각도 0%";
-        if (coinText    != null) coinText.text       = "💰 100";
+        if (notifyText  != null) notifyText.text  = "";
+        if (cureSlider  != null) cureSlider.value = 0f;
+        if (cureText    != null) cureText.text     = "발각도 0%";
+        if (coinText    != null) coinText.text     = "코인: 100";
     }
 
     // ── 지역 정보 패널 ────────────────────────────────────────────
