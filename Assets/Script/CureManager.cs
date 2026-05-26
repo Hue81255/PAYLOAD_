@@ -13,6 +13,7 @@ public class CureManager : MonoBehaviour
     [Range(0f, 1f)]
     public float infectionThreshold = 0.60f; // 60% 감염(6/9 구역) 시 방어 시작
     private bool cureStarted = false;
+    public bool IsCureStarted => cureStarted;
     private bool warningShown = false;
 
     [Header("스탯")]

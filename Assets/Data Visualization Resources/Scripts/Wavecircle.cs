@@ -15,13 +15,18 @@ public class Wavecircle : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdatePercent(no1);
+    }
+
+    public void SetPercent(float f)
+    {
+        no1 = f;
+        UpdatePercent(f);
     }
 
     void UpdatePercent(float f)
