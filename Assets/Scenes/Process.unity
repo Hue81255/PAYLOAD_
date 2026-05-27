@@ -11958,6 +11958,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainSceneName: New main
+  regionNameText: {fileID: 0}
+  infectionCircle: {fileID: 374924781}
+  penRateCircle: {fileID: 1037897400}
+  detectionCircle: {fileID: 362554209}
 --- !u!1 &1862333689
 GameObject:
   m_ObjectHideFlags: 0

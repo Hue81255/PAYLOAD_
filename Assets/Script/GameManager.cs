@@ -157,12 +157,11 @@ public class GameManager : MonoBehaviour
     public void GoToProcess()
     {
         var region = UIManager.Instance?.GetSelectedRegion();
-        if (region == null)
-        {
-            UIManager.Instance?.ShowWarning("⚠️ 먼저 지역을 선택하세요.");
-            return;
-        }
-        GameFlowData.SelectedRegionId = region.id;
+        GameFlowData.SelectedRegionId = region?.id ?? "";
+
+        if (string.IsNullOrEmpty(GameFlowData.SelectedRegionId))
+            UIManager.Instance?.ShowWarning("⚠️ 지역을 선택하지 않았습니다. 지역을 먼저 클릭하세요.");
+
         SaveManager.Instance?.Save();
         Time.timeScale = 0f;
         SceneManager.LoadScene("Process");

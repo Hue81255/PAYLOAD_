@@ -12,6 +12,15 @@ public class PlayerStats : MonoBehaviour
     [Header("코인")]
     public int coins = 100;
 
+    [Header("패시브 코인 수입")]
+    public float passiveIntervalMin = 10f;
+    public float passiveIntervalMax = 15f;
+    public int   passiveAmountMin   = 3;
+    public int   passiveAmountMax   = 5;
+
+    float _passiveTimer    = 0f;
+    float _nextPassiveTime = 0f;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
@@ -21,6 +30,30 @@ public class PlayerStats : MonoBehaviour
     void OnDestroy()
     {
         if (Instance == this) Instance = null;
+    }
+
+    void Start()
+    {
+        _nextPassiveTime = Random.Range(passiveIntervalMin, passiveIntervalMax);
+    }
+
+    void Update()
+    {
+        // 메인씬: 게임 진행 중 + 첫 감염 발생 이후부터 수입 시작
+        // Process씬: GameManager가 없으므로 IsNewGame=false면 진행 중으로 간주
+        bool gameActive = GameManager.Instance != null
+            ? (GameManager.Instance.isGameStarted && GameManager.Instance.infectedRegions > 0)
+            : !GameFlowData.IsNewGame;
+
+        if (!gameActive) return;
+
+        _passiveTimer += Time.deltaTime;
+        if (_passiveTimer < _nextPassiveTime) return;
+
+        _passiveTimer    = 0f;
+        _nextPassiveTime = Random.Range(passiveIntervalMin, passiveIntervalMax);
+        int amount = Random.Range(passiveAmountMin, passiveAmountMax + 1);
+        AddCoins(amount);
     }
 
     // 코인 추가/차감
