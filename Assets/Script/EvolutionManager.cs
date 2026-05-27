@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,27 +30,27 @@ public class EvolutionManager : MonoBehaviour
 
     // ── 업그레이드 UI – 전염도 ───────────────────────────────────
     [Header("UI – 전염도")]
-    public Button infUpgradeButton;
-    public Button infDowngradeButton;
-    public Text   infLevelText;
-    public Text   infCostText;
-    public Text   infStatText;
+    public Button   infUpgradeButton;
+    public Button   infDowngradeButton;
+    public TMP_Text infLevelText;
+    public TMP_Text infCostText;
+    public TMP_Text infStatText;
 
     // ── 업그레이드 UI – 복잡도 ───────────────────────────────────
     [Header("UI – 복잡도")]
-    public Button compUpgradeButton;
-    public Button compDowngradeButton;
-    public Text   compLevelText;
-    public Text   compCostText;
-    public Text   compStatText;
+    public Button   compUpgradeButton;
+    public Button   compDowngradeButton;
+    public TMP_Text compLevelText;
+    public TMP_Text compCostText;
+    public TMP_Text compStatText;
 
     // ── 업그레이드 UI – 은신도 ───────────────────────────────────
     [Header("UI – 은신도")]
-    public Button stealthUpgradeButton;
-    public Button stealthDowngradeButton;
-    public Text   stealthLevelText;
-    public Text   stealthCostText;
-    public Text   stealthStatText;
+    public Button   stealthUpgradeButton;
+    public Button   stealthDowngradeButton;
+    public TMP_Text stealthLevelText;
+    public TMP_Text stealthCostText;
+    public TMP_Text stealthStatText;
 
     // ─────────────────────────────────────────────────────────────
 
@@ -182,7 +183,7 @@ public class EvolutionManager : MonoBehaviour
     }
 
     void UpdateStatUI(Button upgradeBtn, Button downgradeBtn,
-                      Text levelTxt, Text costTxt, Text statTxt,
+                      TMP_Text levelTxt, TMP_Text costTxt, TMP_Text statTxt,
                       int level, int baseCost, int statGain, int statValue, string statName)
     {
         bool maxed  = level >= maxLevel;

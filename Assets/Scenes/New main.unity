@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 10923422}
   - component: {fileID: 10923421}
+  - component: {fileID: 10923423}
   m_Layer: 0
   m_Name: "\uB0A8\uAD6C"
   m_TagString: Untagged
@@ -207,6 +208,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &10923423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10923420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: NAM_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &21251382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2032,7 +2062,7 @@ MonoBehaviour:
   isGameOver: 0
   isGameClear: 0
   totalRegions: 9
-  infectedRegions: 0
+  infectedRegions: 9
   gameOverPanel: {fileID: 1842735093}
   gameClearPanel: {fileID: 712549191}
 --- !u!4 &309613474
@@ -2060,6 +2090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 317009724}
   - component: {fileID: 317009723}
+  - component: {fileID: 317009725}
   m_Layer: 0
   m_Name: "\uBD81\uAD6C"
   m_TagString: Untagged
@@ -2134,6 +2165,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &317009725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317009722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: BUK_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &341545504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,6 +2474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 375478653}
   - component: {fileID: 375478652}
+  - component: {fileID: 375478654}
   m_Layer: 0
   m_Name: "\uC218\uC131\uAD6C"
   m_TagString: Untagged
@@ -2488,6 +2549,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &375478654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 375478651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: SUSEONG_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &386249998
 GameObject:
   m_ObjectHideFlags: 0
@@ -3264,6 +3354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 470330188}
   - component: {fileID: 470330187}
+  - component: {fileID: 470330189}
   m_Layer: 0
   m_Name: "\uC11C\uAD6C"
   m_TagString: Untagged
@@ -3338,6 +3429,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &470330189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470330186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: SEO_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &490677419
 GameObject:
   m_ObjectHideFlags: 0
@@ -4537,6 +4657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 597609179}
   - component: {fileID: 597609178}
+  - component: {fileID: 597609180}
   m_Layer: 0
   m_Name: "\uB2EC\uC131\uAD702"
   m_TagString: Untagged
@@ -4611,6 +4732,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &597609180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597609177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: GUNWI_GUN
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &621699283
 GameObject:
   m_ObjectHideFlags: 0
@@ -6971,6 +7121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 998362703}
   - component: {fileID: 998362702}
+  - component: {fileID: 998362704}
   m_Layer: 0
   m_Name: "\uB2EC\uC131\uAD701"
   m_TagString: Untagged
@@ -7045,6 +7196,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &998362704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998362701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: DALSEONG_GUN
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &1001531089
 GameObject:
   m_ObjectHideFlags: 0
@@ -8400,6 +8580,10 @@ MonoBehaviour:
   comp: 10
   stealth: 10
   coins: 100
+  passiveIntervalMin: 10
+  passiveIntervalMax: 15
+  passiveAmountMin: 3
+  passiveAmountMax: 5
 --- !u!1 &1225018384
 GameObject:
   m_ObjectHideFlags: 0
@@ -10533,6 +10717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1393707257}
   - component: {fileID: 1393707256}
+  - component: {fileID: 1393707258}
   m_Layer: 0
   m_Name: "\uC911\uAD6C"
   m_TagString: Untagged
@@ -10607,6 +10792,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1393707258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393707255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: JUNG_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &1407131946
 GameObject:
   m_ObjectHideFlags: 0
@@ -11856,7 +12070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c254106d7a0cc0458c2c4600898e1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cureProgress: 0
+  cureProgress: 10
   baseCureSpeed: 20
   infectionThreshold: 0.35
   stealth: 0
@@ -14130,6 +14344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1896724450}
   - component: {fileID: 1896724449}
+  - component: {fileID: 1896724451}
   m_Layer: 0
   m_Name: "\uB3D9\uAD6C"
   m_TagString: Untagged
@@ -14204,6 +14419,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1896724451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896724448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: DONG_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &1910229275
 GameObject:
   m_ObjectHideFlags: 0
@@ -15459,6 +15703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2056617020}
   - component: {fileID: 2056617019}
+  - component: {fileID: 2056617021}
   m_Layer: 0
   m_Name: "\uB2EC\uC11C\uAD6C"
   m_TagString: Untagged
@@ -15533,6 +15778,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056617021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056617018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbc3bb9084bd8940a00448b3fd9cadd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  regionId: DALSEO_GU
+  data:
+    id: 
+    name: 
+    type: 
+    minStats:
+      inf: 0
+      comp: 0
+      stealth: 0
+    reward: 0
+    isBoss: 0
+    isInfected: 0
+  currentInf: 0
+  currentStealth: 0
+  weakenedLabel: {fileID: 0}
+  infectedColor: {r: 0.9, g: 0.15, b: 0.1, a: 1}
+  weakenedColor: {r: 1, g: 0.45, b: 0, a: 1}
 --- !u!1 &2062298786 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1100297841468666349, guid: ff413e43f9de09645a8a1af9c9738a32,

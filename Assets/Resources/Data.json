@@ -1,7 +1,7 @@
 {
   "regions": [
     {
-      "id": "Dong gu",
+      "id": "DONG_GU",
       "name": "동구",
       "type": "Business",
       "minStats": { "inf": 68, "comp": 69, "stealth": 31 },
@@ -9,7 +9,7 @@
       "isBoss": false
     },
     {
-      "id": "Seo gu",
+      "id": "SEO_GU",
       "name": "서구",
       "type": "Industrial",
       "minStats": { "inf": 60, "comp": 61, "stealth": 39 },
@@ -17,7 +17,7 @@
       "isBoss": false
     },
     {
-      "id": "Nam gu",
+      "id": "NAM_GU",
       "name": "남구",
       "type": "Stealth",
       "minStats": { "inf": 35, "comp": 32, "stealth": 68 },
@@ -25,7 +25,7 @@
       "isBoss": false
     },
     {
-      "id": "Book gu",
+      "id": "BUK_GU",
       "name": "북구",
       "type": "Residential",
       "minStats": { "inf": 67, "comp": 60, "stealth": 40 },
@@ -33,7 +33,7 @@
       "isBoss": false
     },
     {
-      "id": "Jung gu",
+      "id": "JUNG_GU",
       "name": "중구",
       "type": "Business",
       "minStats": { "inf": 52, "comp": 65, "stealth": 35 },
@@ -41,7 +41,7 @@
       "isBoss": false
     },
     {
-      "id": "Suseong gu",
+      "id": "SUSEONG_GU",
       "name": "수성구",
       "type": "Residential",
       "minStats": { "inf": 57, "comp": 50, "stealth": 50 },
@@ -49,7 +49,7 @@
       "isBoss": false
     },
     {
-      "id": "Dalseo gu",
+      "id": "DALSEO_GU",
       "name": "달서구",
       "type": "Residential",
       "minStats": { "inf": 80, "comp": 76, "stealth": 24 },
@@ -57,7 +57,7 @@
       "isBoss": false
     },
     {
-      "id": "Dalseong goon 1",
+      "id": "DALSEONG_GUN",
       "name": "달성군1",
       "type": "Industrial",
       "minStats": {
@@ -69,7 +69,7 @@
       "isBoss": false
     },
     {
-      "id": "Dalseong goon 2",
+      "id": "GUNWI_GUN",
       "name": "달성군2",
       "type": "Industrial",
       "minStats": {
