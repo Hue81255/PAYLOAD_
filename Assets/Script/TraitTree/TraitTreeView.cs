@@ -189,7 +189,6 @@ namespace TraitTree
             if (!TraitTreeManager.Instance.CanUnlockNow(ui.node))
             {
                 UIManager.Instance?.ShowWarning("⚠️ 코인이 부족하거나 선행 특성이 필요합니다");
-                if (debugLogs) Debug.LogWarning($"[TraitTreeView] CanUnlockNow 실패 → 언락 안 함");
                 return;
             }
 
@@ -288,11 +287,7 @@ namespace TraitTree
 
         void RefreshSliderActuals()
         {
-            if (PlayerStats.Instance == null)
-            {
-                if (debugLogs) Debug.LogWarning("[TraitTreeView] RefreshSliderActuals: PlayerStats.Instance == null → 슬라이더 갱신 불가");
-                return;
-            }
+            if (PlayerStats.Instance == null) return;
 
             // 기본 스탯 + 이 지역에 해제된 노드 보너스
             int inf     = TraitTreeManager.Instance != null

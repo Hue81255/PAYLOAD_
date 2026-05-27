@@ -368,6 +368,133 @@ Worm 악성코드 자동 전염도 증가 패시브 속도 조정:
 
 ---
 
+### 18. News 시스템 신규 구축
+
+**파일**: `Assets/Script/News.cs`, `Assets/Resources/News.json`, `Assets/Script/NewsTickerUI.cs`
+
+#### News.cs — 뉴스 매니저 (싱글톤)
+
+기존 프로젝트 루트에 있던 파일(`News.cs`, `News.json`)을 올바른 경로로 이동 후 전면 재작성.
+
+주요 변경사항:
+- `public static News Instance` 싱글톤 추가 (`OnDestroy` 포함)
+- `Update()`가 자체적으로 모든 뉴스 로직 구동 (외부 호출 불필요)
+- `BuildCurrentState()`: PlayerStats / GameManager / CureManager / MalwareSelectionManager에서 직접 상태 수집
+- `GetMalwareName()`: `MalwareType` 열거형 → JSON의 한국어 이름 매핑
+
+```csharp
+static string GetMalwareName()
+{
+    switch (MalwareSelectionManager.Instance.selectedType)
+    {
+        case MalwareType.Ransomware:  return "랜섬웨어";
+        case MalwareType.Spyware:     return "스파이웨어";
+        case MalwareType.Worm:        return "웜";
+        case MalwareType.Trojan:      return "스틸러";
+        case MalwareType.Botnet:      return "크립토마이너";
+    }
+}
+```
+
+- `IsBossAccessible()`: InfectionEngine + RegionAdjacencyManager로 보스 지역 인접 감염 여부 판단
+- `malwareIntroDone` 플래그로 인트로 뉴스 최초 1회만 발행
+
+#### CureManager.cs — cureStarted 접근자 추가
+
+`cureStarted`가 `private`이어서 News.cs에서 접근 불가 → 프로퍼티 추가:
+
+```csharp
+public bool IsCureStarted => cureStarted;
+```
+
+#### NewsTickerUI.cs — 뉴스 UI 표시 컴포넌트 (신규)
+
+`News.OnNewsPublished` 이벤트를 구독해 TMP_Text 한 줄에 헤드라인 표시, CanvasGroup 페이드 인/아웃 처리:
+
+```csharp
+public TMP_Text newsText;        // 단일 텍스트 필드
+public float displayDuration = 8f;
+public float fadeDuration    = 0.5f;
+```
+
+- `OnEnable` / `Start`에서 이벤트 구독 (초기화 순서 무관하게 안전하게 연결)
+- `OnDisable` / `OnDestroy`에서 구독 해제
+
+#### 유니티 연결 방법
+
+1. 메인씬에 빈 GameObject `NewsManager` 생성 → `News` 컴포넌트 추가
+2. 뉴스 텍스트 UI 오브젝트에 `NewsTickerUI` 컴포넌트 추가
+3. `NewsTickerUI.newsText` 슬롯에 TMP_Text 드래그 연결
+
+---
+
+### 19. Wavecircle 중복 클래스 제거
+
+**파일**: `Assets/Data Visualization Resources/Scripts/Wavecircle.cs`, `Wavecircle2.cs`
+
+`Wavecircle2.cs`가 `Wavecircle`과 동일한 클래스명을 사용해 `CS0101` 컴파일 오류 발생.
+
+- `Wavecircle2.cs`의 `SetPercent()` 메서드를 `Wavecircle.cs`에 병합
+- `Wavecircle2.cs` 삭제
+
+```csharp
+public void SetPercent(float f)
+{
+    no1 = f;
+    UpdatePercent(f);
+}
+```
+
+---
+
+### 20. PlayModePreviewFix 에디터 스크립트 추가
+
+**파일**: `Assets/Editor/PlayModePreviewFix.cs`
+
+Unity 2022.3 에디터 버그 — Play 모드 진입 시 Preview 창이 이미 파괴된 `SerializedObject`에 접근하며 발생하는 `NullReferenceException` 방지:
+
+```
+NullReferenceException: SerializedObject of SerializedProperty has been Disposed.
+UnityEditor.GameObjectInspector.OnDisable()
+UnityEditor.PreviewWindow:OnDisable()
+```
+
+```csharp
+[InitializeOnLoad]
+public static class PlayModePreviewFix
+{
+    static PlayModePreviewFix()
+    {
+        EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+    }
+
+    static void OnPlayModeStateChanged(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingEditMode)
+            Selection.activeObject = null;
+    }
+}
+```
+
+Play 진입 직전에 인스펙터 선택을 해제해 PreviewWindow가 참조를 유지하지 못하도록 차단.
+
+---
+
+### 21. TraitTreeView 불필요 경고 제거
+
+**파일**: `Assets/Script/TraitTree/TraitTreeView.cs`
+
+`debugLogs = true` 상태에서 정상 동작 중에도 계속 출력되던 두 경고 제거:
+
+| 제거된 경고 | 이유 |
+|-------------|------|
+| `PlayerStats.Instance == null → 슬라이더 갱신 불가` | 초기화 순서상 일시적으로 발생하는 정상 상황 |
+| `CanUnlockNow 실패 → 언락 안 함` | 코인 부족·선행 조건 미충족은 게임 플레이 중 당연히 발생 |
+
+UI 경고 메시지(`UIManager.ShowWarning`)는 그대로 유지.
+
+---
+
 ## 유니티 에디터 연결 가이드
 
 ### New main씬 UIManager 연결 항목

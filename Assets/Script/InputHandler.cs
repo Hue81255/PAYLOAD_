@@ -1,11 +1,18 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputHandler : MonoBehaviour
 {
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
+        {
+            // UI 요소 위 클릭은 3D 레이캐스트 무시 — GoToProcess 버튼 클릭 시 선택 지워지는 문제 방지
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
+
             HandleInput(Input.mousePosition);
+        }
     }
 
     void HandleInput(Vector3 screenPos)

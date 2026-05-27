@@ -1568,9 +1568,9 @@ MonoBehaviour:
   qualityDescription: {fileID: 159825494}
   qualityStat: {fileID: 362309737}
   qualityCost: {fileID: 1317807135}
-  infSlider: {fileID: 374924784}
-  compSlider: {fileID: 1037897403}
-  stealthSlider: {fileID: 362554212}
+  infSlider: {fileID: 0}
+  compSlider: {fileID: 0}
+  stealthSlider: {fileID: 0}
   connectorParent: {fileID: 0}
   connectorThickness: 4
   connectorLockedColor: {r: 1, g: 1, b: 1, a: 0.15}
@@ -11924,7 +11924,7 @@ GameObject:
   - component: {fileID: 1776830047}
   - component: {fileID: 1776830048}
   m_Layer: 0
-  m_Name: ProcessManager
+  m_Name: ProcessSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

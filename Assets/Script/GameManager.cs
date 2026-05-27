@@ -156,8 +156,13 @@ public class GameManager : MonoBehaviour
     // 업그레이드 버튼 → Process씬 (이동 전 저장)
     public void GoToProcess()
     {
-        // 현재 선택된 지역을 GameFlowData에 기록해 Process씬에서 사용
-        GameFlowData.SelectedRegionId = UIManager.Instance?.GetSelectedRegion()?.id ?? "";
+        var region = UIManager.Instance?.GetSelectedRegion();
+        if (region == null)
+        {
+            UIManager.Instance?.ShowWarning("⚠️ 먼저 지역을 선택하세요.");
+            return;
+        }
+        GameFlowData.SelectedRegionId = region.id;
         SaveManager.Instance?.Save();
         Time.timeScale = 0f;
         SceneManager.LoadScene("Process");
