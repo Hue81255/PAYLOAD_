@@ -1,5 +1,5 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RegionController : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class RegionController : MonoBehaviour
 
     [Header("약화 표시 UI (선택)")]
     [Tooltip("구역 오브젝트 위에 표시할 약화 텍스트. 없으면 무시됩니다.")]
-    public Text weakenedLabel;
+    public TMP_Text weakenedLabel;
 
     [Header("구역 색상")]
     [Tooltip("감염됐을 때 색상 (기본: 빨간색)")]

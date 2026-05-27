@@ -4,9 +4,8 @@ using UnityEngine;
 
 /// <summary>
 /// 게임 세이브/로드를 담당하는 싱글톤 매니저.
-/// 저장 경로: Application.persistentDataPath/payload_save.json
-/// - 자동 저장: 해킹 성공, 업그레이드 구매
-/// - 세이브 삭제: 게임 오버, 게임 클리어 (패배/승리 후 새 게임 강제)
+/// Process 씬처럼 일부 매니저가 없는 씬에서 저장할 때는
+/// 이전 저장 파일의 값을 유지하여 데이터 오염을 방지한다.
 /// </summary>
 public class SaveManager : MonoBehaviour
 {
@@ -32,7 +31,6 @@ public class SaveManager : MonoBehaviour
     void OnEnable()  => GlobalEventManager.OnHackSuccess += OnHackSuccess;
     void OnDisable() => GlobalEventManager.OnHackSuccess -= OnHackSuccess;
 
-    // 자동 저장: 게임이 실제로 진행 중일 때만
     void OnHackSuccess(string _, int __)
     {
         if (GameManager.Instance != null && GameManager.Instance.isGameStarted)
@@ -51,14 +49,23 @@ public class SaveManager : MonoBehaviour
 
     public void Save(int slot)
     {
+        // 이전 저장 파일을 먼저 읽어 null 매니저 필드의 보존값으로 활용
+        SaveData prev = null;
+        if (HasSave(slot))
+        {
+            try { prev = JsonUtility.FromJson<SaveData>(File.ReadAllText(SlotPath(slot))); }
+            catch { }
+        }
+
         var data = new SaveData();
         data.savedAt = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-        // 악성코드
+        // ── 악성코드 ──────────────────────────────────────────────
         data.malwareType = MalwareSelectionManager.Instance != null
-            ? (int)MalwareSelectionManager.Instance.selectedType : 0;
+            ? (int)MalwareSelectionManager.Instance.selectedType
+            : (prev?.malwareType ?? 0);
 
-        // PlayerStats
+        // ── PlayerStats ───────────────────────────────────────────
         if (PlayerStats.Instance != null)
         {
             data.inf     = PlayerStats.Instance.inf;
@@ -66,46 +73,80 @@ public class SaveManager : MonoBehaviour
             data.stealth = PlayerStats.Instance.stealth;
             data.coins   = PlayerStats.Instance.coins;
         }
+        else if (prev != null)
+        {
+            data.inf     = prev.inf;
+            data.comp    = prev.comp;
+            data.stealth = prev.stealth;
+            data.coins   = prev.coins;
+        }
 
-        // EvolutionManager
+        // ── EvolutionManager 업그레이드 레벨 ─────────────────────
         if (EvolutionManager.Instance != null)
         {
             data.infLevel     = EvolutionManager.Instance.infLevel;
             data.compLevel    = EvolutionManager.Instance.compLevel;
             data.stealthLevel = EvolutionManager.Instance.stealthLevel;
         }
+        else if (prev != null)
+        {
+            data.infLevel     = prev.infLevel;
+            data.compLevel    = prev.compLevel;
+            data.stealthLevel = prev.stealthLevel;
+        }
 
-        // GameManager (Process씬에서는 null일 수 있음)
-        data.infectedRegions = GameManager.Instance != null ? GameManager.Instance.infectedRegions : 0;
+        // ── GameManager ───────────────────────────────────────────
+        if (GameManager.Instance != null)
+            data.infectedRegions = GameManager.Instance.infectedRegions;
+        else
+            data.infectedRegions = prev?.infectedRegions ?? 0;
 
-        // CureManager
-        CureManager.Instance?.FillSaveData(data);
+        // ── CureManager ───────────────────────────────────────────
+        if (CureManager.Instance != null)
+            CureManager.Instance.FillSaveData(data);
+        else if (prev != null)
+        {
+            data.cureProgress         = prev.cureProgress;
+            data.baseCureSpeed        = prev.baseCureSpeed;
+            data.cureManagerStealth   = prev.cureManagerStealth;
+            data.cureStarted          = prev.cureStarted;
+            data.warningShown         = prev.warningShown;
+            data.phase1Triggered      = prev.phase1Triggered;
+            data.phase2Triggered      = prev.phase2Triggered;
+            data.phase3Triggered      = prev.phase3Triggered;
+            data.cureSuppressionTimer = prev.cureSuppressionTimer;
+        }
 
-        // WhiteHackerManager
-        WhiteHackerManager.Instance?.FillSaveData(data);
+        // ── WhiteHackerManager ────────────────────────────────────
+        if (WhiteHackerManager.Instance != null)
+            WhiteHackerManager.Instance.FillSaveData(data);
+        else if (prev != null)
+        {
+            data.hackerState        = prev.hackerState;
+            data.isCuring           = prev.isCuring;
+            data.targetRegion       = prev.targetRegion;
+            data.regionCureTimer    = prev.regionCureTimer;
+            data.scanTimer          = prev.scanTimer;
+            data.hackerCureProgress = prev.hackerCureProgress;
+        }
 
-        // 구역 감염 상태
-        data.regions = new List<RegionSaveData>();
+        // ── 구역 감염 상태 ────────────────────────────────────────
+        // Process 씬처럼 InfectionEngine이 없으면 이전 저장값 유지
         if (InfectionEngine.Instance != null)
         {
+            data.regions = new List<RegionSaveData>();
             foreach (var r in InfectionEngine.Instance.regions)
                 data.regions.Add(new RegionSaveData { regionId = r.id, isInfected = r.isInfected });
         }
+        else
+            data.regions = prev?.regions ?? new List<RegionSaveData>();
 
-        // 지역별 TraitTree 언락 노드
+        // ── 지역별 TraitTree 언락 노드 ────────────────────────────
+        // Process 씬에서 업데이트된 트레이트 데이터 저장, 없으면 이전값 유지
         if (TraitTree.TraitTreeManager.Instance != null)
             data.regionTraitNodes = TraitTree.TraitTreeManager.Instance.GetAllSaveData();
-        else if (HasSave(slot))
-        {
-            try
-            {
-                var prev = JsonUtility.FromJson<SaveData>(File.ReadAllText(SlotPath(slot)));
-                data.regionTraitNodes = prev?.regionTraitNodes ?? new List<RegionTraitSaveData>();
-            }
-            catch { data.regionTraitNodes = new List<RegionTraitSaveData>(); }
-        }
         else
-            data.regionTraitNodes = new List<RegionTraitSaveData>();
+            data.regionTraitNodes = prev?.regionTraitNodes ?? new List<RegionTraitSaveData>();
 
         File.WriteAllText(SlotPath(slot), JsonUtility.ToJson(data, true));
         Debug.Log($"[SaveManager] 슬롯 {slot} 저장 완료 ({data.savedAt})");
@@ -187,14 +228,14 @@ public class SaveManager : MonoBehaviour
         if (GameManager.Instance != null)
             GameManager.Instance.infectedRegions = data.infectedRegions;
 
-        // ── 9. 악성코드 패시브 복원 (UI 패널 없이 재개) ──────────
+        // ── 9. 악성코드 패시브 복원 ──────────────────────────────
         MalwareSelectionManager.Instance?.RestoreFromSave(data.malwareType);
 
-        // ── 10. 지역별 TraitTree 언락 상태 복원 (Process씬에서만 동작) ──
+        // ── 10. 지역별 TraitTree 언락 상태 복원 ──────────────────
         if (TraitTree.TraitTreeManager.Instance != null && data.regionTraitNodes != null)
             TraitTree.TraitTreeManager.Instance.RestoreFromSaveData(data.regionTraitNodes);
 
-        // ── 11. 게임 상태 전환 ───────────────────────────────────
+        // ── 11. 게임 상태 전환 (Main 씬에서만 GameManager 존재) ──
         if (GameManager.Instance != null)
         {
             GameManager.Instance.isGameStarted = true;

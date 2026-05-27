@@ -62,4 +62,8 @@ public class RegionTraitSaveData
 {
     public string       regionId;
     public List<string> unlockedNodes = new List<string>();
+    // 보너스 수치를 저장해두면 ScriptableObject 없는 씬(Main)에서도 복원 가능
+    public int infBonus;
+    public int compBonus;
+    public int stealthBonus;
 }

@@ -116,6 +116,9 @@ namespace TraitTree
             AddBonus(_currentRegionId, n.category, n.effectAmount);
 
             OnTreeChanged?.Invoke();
+
+            // 언락 즉시 저장 — BackToGame() 전에 예외가 발생해도 데이터 보존
+            SaveManager.Instance?.Save();
             return true;
         }
 
@@ -135,11 +138,19 @@ namespace TraitTree
             foreach (var kv in _unlockedByRegion)
             {
                 if (kv.Value.Count == 0) continue;
-                result.Add(new RegionTraitSaveData
+                var item = new RegionTraitSaveData
                 {
                     regionId      = kv.Key,
                     unlockedNodes = new List<string>(kv.Value)
-                });
+                };
+                // 보너스 수치를 저장 — ScriptableObject 없는 씬에서도 복원 가능하게
+                if (_bonusByRegion.TryGetValue(kv.Key, out var bonuses))
+                {
+                    bonuses.TryGetValue(TraitCategory.Inf,     out item.infBonus);
+                    bonuses.TryGetValue(TraitCategory.Comp,    out item.compBonus);
+                    bonuses.TryGetValue(TraitCategory.Stealth, out item.stealthBonus);
+                }
+                result.Add(item);
             }
             return result;
         }
@@ -150,7 +161,7 @@ namespace TraitTree
             _bonusByRegion.Clear();
             if (saveData == null || saveData.Count == 0) return;
 
-            // 보너스 재계산용 노드 맵 (없어도 이름 복원 자체는 가능)
+            // ScriptableObject로 보너스 재계산 시도 (Process 씬에서만 성공)
             var nodeMap = BuildNodeMap();
 
             foreach (var entry in saveData)
@@ -158,16 +169,28 @@ namespace TraitTree
                 if (string.IsNullOrEmpty(entry.regionId) || entry.unlockedNodes == null) continue;
                 if (entry.unlockedNodes.Count == 0) continue;
 
-                // 이름 집합 복원 (ScriptableObject 인스턴스 불필요)
                 _unlockedByRegion[entry.regionId] = new HashSet<string>(entry.unlockedNodes);
 
-                // 보너스 재계산
+                // ScriptableObject로 보너스 재계산
+                bool anyFound = false;
                 foreach (var name in entry.unlockedNodes)
+                {
                     if (nodeMap.TryGetValue(name, out var node))
+                    {
                         AddBonus(entry.regionId, node.category, node.effectAmount);
+                        anyFound = true;
+                    }
+                }
+
+                // Main 씬처럼 ScriptableObject를 찾지 못한 경우 저장된 수치로 복원
+                if (!anyFound)
+                {
+                    if (entry.infBonus     != 0) AddBonus(entry.regionId, TraitCategory.Inf,     entry.infBonus);
+                    if (entry.compBonus    != 0) AddBonus(entry.regionId, TraitCategory.Comp,    entry.compBonus);
+                    if (entry.stealthBonus != 0) AddBonus(entry.regionId, TraitCategory.Stealth, entry.stealthBonus);
+                }
             }
 
-            Debug.Log($"[TraitTreeManager] 복원: {_unlockedByRegion.Count}개 지역, nodeMap={nodeMap.Count}개");
             OnTreeChanged?.Invoke();
         }
 

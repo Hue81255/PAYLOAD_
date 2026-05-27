@@ -8602,6 +8602,10 @@ MonoBehaviour:
   comp: 10
   stealth: 10
   coins: 100
+  passiveIntervalMin: 10
+  passiveIntervalMax: 15
+  passiveAmountMin: 3
+  passiveAmountMax: 5
 --- !u!4 &1311180858
 Transform:
   m_ObjectHideFlags: 0
