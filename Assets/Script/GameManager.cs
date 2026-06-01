@@ -124,11 +124,20 @@ public class GameManager : MonoBehaviour
         if (gameOverPanel)  gameOverPanel.SetActive(false);
         if (gameClearPanel) gameClearPanel.SetActive(false);
 
+        // 새 게임 시작 시 모든 구역 감염 상태를 명시적으로 초기화
+        if (InfectionEngine.Instance != null)
+            foreach (var r in InfectionEngine.Instance.regions)
+            {
+                r.isInfected       = false;
+                r.defenseReduction = 0;
+            }
+
         CureManager.Instance?.ResetCure();
         WhiteHackerManager.Instance?.ResetAI();
         RegionAdjacencyManager.Instance?.ResetAll();
         EvolutionManager.Instance?.ResetLevels();
         SpreadManager.Instance?.StopSpread();
+        TraitTree.TraitTreeManager.ClearStaticData();
     }
 
     // 첫 지역 감염 + 자동 전파 시작

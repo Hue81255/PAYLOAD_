@@ -97,6 +97,10 @@ public class VirusSelectScene : MonoBehaviour
 
         GameFlowData.SelectedMalwareType = _selectedIndex;
         GameFlowData.IsNewGame           = true;
+
+        // 이전 게임 저장 데이터 삭제 — 새 게임이 시작되므로 오염 방지
+        SaveManager.Instance?.DeleteSave();
+
         SceneManager.LoadScene("New main");
     }
 

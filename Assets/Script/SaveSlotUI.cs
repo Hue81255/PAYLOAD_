@@ -49,7 +49,12 @@ public class SaveSlotUI : MonoBehaviour
     void OnSelect(int slot)
     {
         GameFlowData.SelectedSlot = slot;
-        GameFlowData.IsNewGame    = !HasSave(slot);
+        bool isNew = !HasSave(slot);
+        GameFlowData.IsNewGame = isNew;
+
+        // 새 슬롯 선택 시 해당 슬롯의 저장 데이터가 없더라도 다른 슬롯 잔여물 차단
+        SaveManager.CurrentSlot = slot;
+
         SceneManager.LoadScene("New main");
     }
 

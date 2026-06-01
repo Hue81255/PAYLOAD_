@@ -117,8 +117,15 @@ namespace TraitTree
 
         void Start()
         {
-            // OnEnable은 Awake와 같은 프레임에 호출되므로 PlayerStats가 아직 null일 수 있음.
-            // Start에서 한 번 더 갱신하면 모든 Awake 완료 후 슬라이더가 정확한 값을 반영한다.
+            // OnEnable 시점엔 TraitTreeManager.Instance가 null일 수 있으므로
+            // 모든 Awake 완료 후인 Start에서 구독을 재시도한다.
+            if (TraitTreeManager.Instance != null)
+            {
+                TraitTreeManager.Instance.OnTreeChanged -= RefreshAll; // 중복 방지
+                TraitTreeManager.Instance.OnTreeChanged += RefreshAll;
+            }
+            // SetCurrentRegion이 이미 호출된 경우를 대비해 한 번 더 갱신
+            RefreshAll();
             RefreshSliderActuals();
         }
 

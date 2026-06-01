@@ -8,12 +8,12 @@ namespace TraitTree
     {
         public static TraitTreeManager Instance;
 
-        // 지역 ID → 언락된 노드 이름 집합 (ScriptableObject 참조가 아닌 이름으로 저장)
-        readonly Dictionary<string, HashSet<string>> _unlockedByRegion =
+        // static: 씬 전환 후에도 데이터 유지 (지역 ID → 언락된 노드 이름 집합)
+        static readonly Dictionary<string, HashSet<string>> _unlockedByRegion =
             new Dictionary<string, HashSet<string>>();
 
-        // 지역별 카테고리 보너스 캐시 (언락/복원 시 갱신)
-        readonly Dictionary<string, Dictionary<TraitCategory, int>> _bonusByRegion =
+        // static: 씬 전환 후에도 데이터 유지 (지역별 카테고리 보너스 캐시)
+        static readonly Dictionary<string, Dictionary<TraitCategory, int>> _bonusByRegion =
             new Dictionary<string, Dictionary<TraitCategory, int>>();
 
         string _currentRegionId = "";
@@ -28,6 +28,13 @@ namespace TraitTree
         void OnDestroy()
         {
             if (Instance == this) Instance = null;
+        }
+
+        // 새 게임 시작 시 호출 — static 데이터를 초기화해 이전 게임 상태가 남지 않도록 함
+        public static void ClearStaticData()
+        {
+            _unlockedByRegion.Clear();
+            _bonusByRegion.Clear();
         }
 
         // ── 현재 편집 지역 ────────────────────────────────────────
